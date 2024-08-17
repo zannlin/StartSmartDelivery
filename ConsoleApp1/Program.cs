@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleApp1.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,8 +11,11 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-
-            Console.WriteLine("Hello World");
+            Console.Write("Enter Username: ");
+            string Username = Console.ReadLine();
+            Console.Write("Enter Password: ");
+            string Password = Console.ReadLine();
+            Admin Admin=new Admin(Username,Password);
             Console.ReadLine();
         }
     }
