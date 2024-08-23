@@ -10,11 +10,18 @@ using System.Windows.Forms;
 
 namespace StartSmartDelivery
 {
-    public partial class Form1 : Form
+    public partial class HomePage : Form
     {
-        public Form1()
+        public HomePage()
         {
+            Application.Run(new LogIn());
             InitializeComponent();
+            
+        }
+
+        private void HomePage_Load(object sender, EventArgs e)
+        {
+            
         }
     }
 }
