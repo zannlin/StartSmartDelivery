@@ -20,5 +20,7 @@ namespace ConsoleApp1.Classes
             get { return _LoadCapacity; }
             set { _LoadCapacity = value; }
         }
+
+
     }
 }

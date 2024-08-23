@@ -80,10 +80,25 @@ namespace ConsoleApp1.Classes
             }
         }
 
-        public void AddVehicle(Vehicles vehicle)
+        public virtual bool AddVehicle(Vehicles vehicle)
         {
-            _VehicleList.Add(vehicle);
-            Console.WriteLine($"{vehicle.Make} {vehicle.Model} with the numberplate {vehicle.NumberPlate} added successfully.");
+            bool NotUnique = false;
+            foreach (Vehicles veci in VehicleList)
+            {
+                if (veci.NumberPlate == vehicle.NumberPlate)
+                {
+                    NotUnique = true;
+                }
+            }
+            if (!NotUnique)
+            {
+                return false;
+            }
+            else
+            {
+                Console.WriteLine($"{vehicle.Make} {vehicle.Model} with the numberplate {vehicle.NumberPlate} added successfully.");
+                return true;
+            }
         }
         public void RemoveVehicle(string NumberPlate)
         {
