@@ -44,7 +44,7 @@ namespace ConsoleApp1.Classes
         public static void StartApp()
         {
             bool FirstRun = true;
-            bool Exit=false;
+            bool Exit = false;
             do
             {
                 if (!FirstRun)
@@ -99,8 +99,8 @@ namespace ConsoleApp1.Classes
                 {
                     case 1://Add_Delivery
                         Console.WriteLine("Delievery Preset: \n 1. Default \n 2. Custom");
-                       
-                        int option=0;
+
+                        int option = 0;
                         bool validOption = false;
 
                         while (!validOption)
@@ -111,7 +111,7 @@ namespace ConsoleApp1.Classes
                             {
                                 if (option == 1 || option == 2)
                                 {
-                                    validOption = true; 
+                                    validOption = true;
                                 }
                                 else
                                 {
@@ -126,8 +126,8 @@ namespace ConsoleApp1.Classes
 
                         if (option == 1)
                         {
-                           Console.Clear();
-                           DefaultDeliveryManager.CreateOrder();
+                            Console.Clear();
+                            DefaultDeliveryManager.CreateOrder();
                         }
                         else if (option == 2)
                         {
@@ -163,27 +163,29 @@ namespace ConsoleApp1.Classes
                 switch (Option_Vehicle)
                 {
                     case 1://Add_Vehicle
-
                         Console.ReadLine();
                         break;
                     case 2://Edit_Vehicle
-
                         Console.ReadLine();
                         break;
                     case 3://ViewAllVehicles
+                        Console.Clear();
                         VehicleManager.ViewAllVehicles();
                         Console.ReadLine();
                         break;
                     case 4://View_Available_Vehicles
+                        Console.Clear();
                         VehicleManager.ViewAvailable();
                         Console.ReadLine();
                         break;
                     case 5://View_Vehicles_under_maintenance
+                        Console.Clear();
                         VehicleManager.ViewMaintanence();
                         Console.ReadLine();
                         break;
                     case 6://Search_Vehicle
-
+                        Console.Clear();
+                        VehicleManager.SearchVehicle();
                         Console.ReadLine();
                         break;
                     case 7://back
@@ -196,40 +198,44 @@ namespace ConsoleApp1.Classes
         public static void Driver_Management()
         {
             List<Drivers> driverList = new List<Drivers>();
-            
+
             bool back = false;
             do
             {
                 Console.Clear();
-            int Option_Driver;
-            Console.WriteLine("===== Driver Management =====");
-            DisplayEnum(typeof(DriverManagement));
-            Console.WriteLine("Please select an option");
-            Option_Driver = int.Parse(Console.ReadLine());
-            switch(Option_Driver)
-            {
-                case 1://Add_Driver
+                int Option_Driver;
+                Console.WriteLine("===== Driver Management =====");
+                DisplayEnum(typeof(DriverManagement));
+                Console.WriteLine("Please select an option");
+                Option_Driver = int.Parse(Console.ReadLine());
+                switch (Option_Driver)
+                {
+                    case 1://Add_Driver
+                        Console.Clear();
                         Drivers newDriver = Drivers.AddDrivers();
                         driverList.Add(newDriver);
                         Console.WriteLine("Driver added succesfully");
                         Console.ReadLine();
                         break;
-                case 2://Edit_Driver
+                    case 2://Edit_Driver
+                        Console.Clear();
 
                         Console.ReadLine();
                         break;
-                case 3://View_Driver_Availability
-                        
-                        Console.ReadLine();
-                        break;
-                case 4://Search_Driver
+                    case 3://View_Driver_Availability
+                        Console.Clear();
 
                         Console.ReadLine();
                         break;
-                case 5://back
+                    case 4://Search_Driver
+                        Console.Clear();
+
+                        Console.ReadLine();
+                        break;
+                    case 5://back
                         back = true;
                         break;
-            }
+                }
             } while (back != true);
         }
         public static void DisplayEnum(Type enumName)

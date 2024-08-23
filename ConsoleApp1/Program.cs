@@ -11,7 +11,7 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-           
+
             //Console.WriteLine("ADMIN LOGIN");
             //Console.WriteLine("===========");
 
@@ -22,10 +22,10 @@ namespace ConsoleApp1
             //if (isAuthenticated)
             //{
             Console.WriteLine("WELCOME TO STARTSMART DELIVERY SYSTEM!!!");
-                Menu.StartApp();
-                Console.ReadLine();
+            Menu.StartApp();
+            Console.ReadLine();
             //}
-            
+
         }
     }
 }

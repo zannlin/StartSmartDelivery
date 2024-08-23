@@ -69,14 +69,14 @@ namespace ConsoleApp1.Classes
             get { return _Availability; }
             set
             {
-                    if (AllowedValues.Contains(value))
-                    {
-                        _Availability = value;
-                    }
-                    else
-                    {
+                if (AllowedValues.Contains(value))
+                {
+                    _Availability = value;
+                }
+                else
+                {
                     throw new InvalidAvailabilityException("Invalid Availability Type Entered. Enter 'Available', 'Unavailable' or 'Under Maintenance'");
-                    }
+                }
             }
         }
 
@@ -145,12 +145,14 @@ namespace ConsoleApp1.Classes
                 Console.WriteLine("===== List of Available Vehicles =====");
                 foreach (var vehicle in availableVehicles)
                 {
-                    DisplayDetails ();
+                    DisplayDetails();
                 }
             }
         }
         public void ViewMaintanence()
+
         {
+            Console.WriteLine("===== Vehicles under Maintanence =====");
             var availableVehicles = VehicleList.Where(v => v.Availability == "Maintanence").ToList();
 
             if (availableVehicles.Count == 0)
@@ -169,6 +171,7 @@ namespace ConsoleApp1.Classes
         }
         public void SearchVehicle()
         {
+            Console.WriteLine("===== Searching Vehicles =====");
             Console.Write("Enter the number plate of the vehicle to search: ");
             string numberPlate = Console.ReadLine();
 

@@ -50,7 +50,7 @@ namespace ConsoleApp1.Classes
 
         public void AddLicenseType(string licenseType)
         {
-            if(IsValidLiscenseType(licenseType))
+            if (IsValidLiscenseType(licenseType))
             {
                 if (!_LicenseTypes.Contains(licenseType))
                 {
@@ -70,6 +70,7 @@ namespace ConsoleApp1.Classes
 
         public static Drivers AddDrivers()
         {
+            Console.WriteLine("===== Adding Drivers =====");
             Console.Write("Enter the Driver's Name: ");
             string name = Console.ReadLine();
 
@@ -86,7 +87,7 @@ namespace ConsoleApp1.Classes
                 Console.Write("Enter the license type (Code 8, Code 10, Code 11, Code 14) or type 'done' to finish.");
                 string licenseType = Console.ReadLine();
 
-                if(licenseType.ToLower() == "done")
+                if (licenseType.ToLower() == "done")
                 {
                     break;
                 }
@@ -97,16 +98,17 @@ namespace ConsoleApp1.Classes
 
         public void EditDriver()
         {
+            Console.WriteLine("===== Editing Drivers =====");
             Console.WriteLine($"Editing Driver {Name} {Surname}");
 
-            Console.Write("New Name (leave blank to keeo current): ");
+            Console.Write("New Name (leave blank to keep current): ");
             string newName = Console.ReadLine();
-            if(!string.IsNullOrEmpty(newName)) Name= newName;
+            if (!string.IsNullOrEmpty(newName)) Name = newName;
             Console.WriteLine();
 
             Console.Write("New Surname (leave blank to keep current): ");
             string newSurname = Console.ReadLine();
-            if(!string.IsNullOrEmpty (newSurname)) Surname= newSurname;
+            if (!string.IsNullOrEmpty(newSurname)) Surname = newSurname;
             Console.WriteLine();
 
             //add employeeNo edit later zzzzzzZZZZZZZ
@@ -125,12 +127,12 @@ namespace ConsoleApp1.Classes
             }
 
             Console.WriteLine($"Driver {Name} {Surname} updated.");
-        
+
         }
 
         public void ViewDriverAvailability()
         {
-
+            Console.WriteLine("===== View Available Drivers =====");
         }
 
         //public static SearchDriver()
