@@ -9,8 +9,8 @@ namespace ConsoleApp1.Classes
     internal class Truck : Vehicles
     {
         private double _LoadCapacity;
-
-        public Truck() { }
+       
+        public Truck() { } 
         public Truck(string Make, string Model, int Year, string NumberPlate, string Status, string Availability, double LoadCapacity):base(Make, Model, Year, NumberPlate, Status, Availability) { 
         _LoadCapacity = LoadCapacity;
         }

@@ -14,27 +14,44 @@ namespace ConsoleApp1.Classes
 
         public Admin(string Username, string Password) : base(Username, Password)
         {
+        }
+        
 
-            //Should you wish to limit the attempts - change while condition 
+        public bool Login()
+        {
             bool isAuthenticated = false;
-            while (!isAuthenticated)
+
+            for (int i=3; i>=0; i--)
             {
+                Console.Write("Enter Username: ");
+                Username = Console.ReadLine();
+                Console.Clear();
+                Console.Write("Enter Password: ");
+                Password = Console.ReadLine();
+
                 if (Username == HardcodedUsername && Password == HardcodedPassword)
                 {
                     isAuthenticated = true;
-                    Console.WriteLine("Success");
+                    Console.Clear();
+                    Console.WriteLine("Login Succesful");
+                    Console.WriteLine();
+                    Console.WriteLine("Press Any Key to Continue.");
+                    Console.ReadKey();
+                    Console.Clear();
+                    break;
                 }
                 else
                 {
-                    Console.WriteLine("The Username or Password is invalid. Please try again.");
-                    Console.Write("Enter Username: ");
-                    Username = Console.ReadLine();
-                    Console.Write("Enter Password: ");
-                    Password = Console.ReadLine();
+
+                    Console.Clear();
+                    Console.WriteLine($"The Username or Password is invalid. Please try again.\n{i} Attempts Remaining!");
+                    Console.WriteLine();
+                    continue;
+
                 }
             }
+            return isAuthenticated;
         }
-
         public void ViewSystemLogs()
         {
             //TODO

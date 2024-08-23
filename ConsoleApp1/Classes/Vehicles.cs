@@ -6,21 +6,25 @@ using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Schema;
+using System.Runtime.CompilerServices;
 
 namespace ConsoleApp1.Classes
 {
     internal class Vehicles : IVehicles
     {
-         private static List<Vehicles> _VehicleList = new List<Vehicles>();
-         string _Make;
-         string _Model;
-         int _Year;
-         string _NumberPlate;
-         string _Status;
-         string _Availability;
+        static readonly string[] AllowedValues = { "Available", "Unavailable", "Under Maintenance" };
+
+        private static List<Vehicles> _VehicleList = new List<Vehicles>();
+        string _Make;
+        string _Model;
+        int _Year;
+        string _NumberPlate;
+        string _Status;
+        string _Availability;
 
         public Vehicles() { }
-        public Vehicles(string Make, string Model, int Year, string NumberPlate, string Status,string Availability)
+        public Vehicles(string Make, string Model, int Year, string NumberPlate, string Status, string Availability)
         {
             _Make = Make;
             _Model = Model;
@@ -63,7 +67,17 @@ namespace ConsoleApp1.Classes
         public string Availability
         {
             get { return _Availability; }
-            set { _Availability = value; }
+            set
+            {
+                    if (AllowedValues.Contains(value))
+                    {
+                        _Availability = value;
+                    }
+                    else
+                    {
+                    throw new InvalidAvailabilityException("Invalid Availability Type Entered. Enter 'Available', 'Unavailable' or 'Under Maintenance'");
+                    }
+            }
         }
 
         public void AddVehicle(Vehicles vehicle)
@@ -73,7 +87,7 @@ namespace ConsoleApp1.Classes
         }
         public void RemoveVehicle(string NumberPlate)
         {
-            lock (_VehicleList); // Lock the list to prevent other threads from accessing it thus preventing concurrency errors. 
+            lock (_VehicleList) ; // Lock the list to prevent other threads from accessing it thus preventing concurrency errors. 
             Vehicles VehicleToRemove = _VehicleList.Find(v => v.NumberPlate == NumberPlate);
             if (VehicleToRemove != null)
             {
@@ -88,5 +102,84 @@ namespace ConsoleApp1.Classes
                 }
             }
         }
+        public void ViewAllVehicles()
+        {
+            if (VehicleList.Count == 0)
+            {
+                Console.WriteLine("No vehicles available.");
+            }
+            else
+            {
+                Console.WriteLine("===== List of Vehicles =====");
+                foreach (var vehicle in VehicleList)
+                {
+                    Console.WriteLine($"Make: {vehicle.Make}, Model: {vehicle.Model}, Year: {vehicle.Year}, Number Plate: {vehicle.NumberPlate}, Status: {vehicle.Status}, Availability: {vehicle.Availability}");
+                }
+            }
+        }
+        public void ViewAvailable()
+        {
+            var availableVehicles = VehicleList.Where(v => v.Availability == "Available").ToList();
+
+            if (availableVehicles.Count == 0)
+            {
+                Console.WriteLine("No available vehicles at the moment.");
+            }
+            else
+            {
+                Console.WriteLine("===== List of Available Vehicles =====");
+                foreach (var vehicle in availableVehicles)
+                {
+                    DisplayDetails ();
+                }
+            }
+        }
+        public void ViewMaintanence()
+        {
+            var availableVehicles = VehicleList.Where(v => v.Availability == "Maintanence").ToList();
+
+            if (availableVehicles.Count == 0)
+            {
+                Console.WriteLine("No available vehicles at the moment.");
+            }
+            else
+            {
+                Console.WriteLine("===== List of Vehicles under Maintanence =====");
+                foreach (var vehicle in availableVehicles)
+                {
+                    DisplayDetails();
+                }
+            }
+
+        }
+        public void SearchVehicle()
+        {
+            Console.Write("Enter the number plate of the vehicle to search: ");
+            string numberPlate = Console.ReadLine();
+
+            // Find the vehicle with the matching number plate
+            Vehicles foundVehicle = VehicleList.Find(v => v.NumberPlate.Equals(numberPlate, StringComparison.OrdinalIgnoreCase));
+
+            if (foundVehicle != null)
+            {
+                Console.WriteLine("Vehicle found:");
+                Console.WriteLine($"Make: {foundVehicle.Make}, Model: {foundVehicle.Model}, Year: {foundVehicle.Year}, Number Plate: {foundVehicle.NumberPlate}, Status: {foundVehicle.Status}, Availability: {foundVehicle.Availability}");
+            }
+            else
+            {
+                Console.WriteLine("Vehicle not found.");
+            }
+        }
+
+        public virtual void DisplayDetails()
+        {
+            Console.WriteLine($"Make: {Make}, Model: {Model}, Year: {Year}, Number Plate: {NumberPlate}, Status: {Status}, Availability: {Availability}");
+        }
+        public override string ToString()
+        {
+            return base.ToString();
+        }
+
+
     }
 }

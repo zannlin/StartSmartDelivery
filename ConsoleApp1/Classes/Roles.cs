@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1.Classes
 {
+    //While there is only one role currently, The absract class Roles allows for more. 
     internal abstract class Roles : IRoles
     {
         string _Username;

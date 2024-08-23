@@ -9,8 +9,14 @@ namespace ConsoleApp1.Classes
 {
     internal abstract class DeliveryTask
     {
-        public string OrderNumber { get; set; }
+        static List<DeliveryTask> _DeliveryList = new List<DeliveryTask>();
 
+        public static List<DeliveryTask> DeliveryList
+        {
+            get { return _DeliveryList; }
+            set { _DeliveryList = value; }
+        }
+        public string OrderNumber { get; set; }
         public string Date { get; set; }
         public string Day { get; set; }
         public string Time { get; set; }
@@ -38,13 +44,14 @@ namespace ConsoleApp1.Classes
         public string PaymentMethod { get; set; }
         public string Notes { get; set; }
 
-        public DeliveryTask(string orderNumber,string date, string day, string time,string name, string telephone, string cellphone, string email,string address, string product, string amount, string paymentMethod, string notes)
+        public DeliveryTask() { }
+        public DeliveryTask(string orderNumber, string date, string day, string time, string name, string telephone, string cellphone, string email, string address, string product, string amount, string paymentMethod, string notes)
         {
             OrderNumber = orderNumber;
             Date = date;
             Day = day;
             Time = time;
-            _FullnameOrCompany= name;
+            _FullnameOrCompany = name;
             Telephone = telephone;
             Cellphone = cellphone;
             Email = email;
@@ -56,19 +63,39 @@ namespace ConsoleApp1.Classes
         }
         public virtual void DisplayDetails()
         {
-            Console.WriteLine($"Order Number: {OrderNumber}");
-            Console.WriteLine($"Date: {Date}");
-            Console.WriteLine($"Day: {Date}");
-            Console.WriteLine($"Time: {Time}");
-            Console.WriteLine($"Name: {_FullnameOrCompany}");
-            Console.WriteLine($"Telephone: {Telephone}");
-            Console.WriteLine($"Cellphone: {Cellphone}");
-            Console.WriteLine($"Email: {Email}");
-            Console.WriteLine($"Address: {Address}");
-            Console.WriteLine($"Product: {Product}");
-            Console.WriteLine($"Amount: R{Amount}");
-            Console.WriteLine($"PaymentMethod: {PaymentMethod}");
-            Console.WriteLine($"Notes: {Notes}");
+            Console.WriteLine($"Order Number: {OrderNumber}\n" +
+                              $"Date: {Date}\n" +
+                              $"Day: {Day}\n" +
+                              $"Time: {Time}\n" +
+                              $"Name: {_FullnameOrCompany}\n" +
+                              $"Telephone: {Telephone}\n" +
+                              $"Cellphone: {Cellphone}\n" +
+                              $"Email: {Email}\n" +
+                              $"Address: {Address}\n" +
+                              $"Product: {Product}\n" +
+                              $"Amount: R{Amount}\n" +
+                              $"PaymentMethod: {PaymentMethod}\n" +
+                              $"Notes: {Notes}");
+        }
+
+
+        public abstract void CreateOrder();
+        public void ViewAllDeliveries()
+        {
+            if (DeliveryList.Count == 0)
+            {
+                Console.WriteLine("No deliveries available.");
+            }
+            else
+            {
+                Console.WriteLine("===== List of Deliveries =====");
+                foreach (var delivery in DeliveryList)
+                {
+                    delivery.DisplayDetails();
+                }
+            }
         }
     }
+
+
 }
