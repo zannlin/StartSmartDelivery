@@ -12,6 +12,7 @@ namespace ConsoleApp1.Classes
         string _Surname;
         int _EmployeeNo; //May need to change. Currently here as the "unique identifier"
         private List<string> _LicenseTypes;
+        public bool Availability { get; set; }
 
         string Name
         {
@@ -34,12 +35,13 @@ namespace ConsoleApp1.Classes
             get { return _LicenseTypes; }
         }
 
-        public Drivers(string name, string surname, int employeeNo)
+        public Drivers(string name, string surname, int employeeNo, bool availability)
         {
             _Name = name;
             _Surname = surname;
             _EmployeeNo = employeeNo;
             _LicenseTypes = new List<string>();
+            Availability = availability;
         }
 
         private bool IsValidLiscenseType(string licenseType)
@@ -71,20 +73,29 @@ namespace ConsoleApp1.Classes
         public static Drivers AddDrivers()
         {
             Console.WriteLine("===== Adding Drivers =====");
+           
+            Console.WriteLine();
             Console.Write("Enter the Driver's Name: ");
             string name = Console.ReadLine();
 
+            Console.WriteLine();
             Console.Write("Enter Driver's Surname: ");
             string surname = Console.ReadLine();
 
+            Console.WriteLine();
             Console.Write("Enter Driver's Employee Number: ");
             int employeeNo = int.Parse(Console.ReadLine());
+            
+            Console.WriteLine();
+            Console.Write("Is the Driver Available? (true/false): ");
+            bool availability = bool.Parse(Console.ReadLine());
 
-            Drivers driver = new Drivers(name, surname, employeeNo);
+            Drivers driver = new Drivers(name, surname, employeeNo, availability);
 
             while (true)
             {
-                Console.Write("Enter the license type (Code 8, Code 10, Code 11, Code 14) or type 'done' to finish.");
+                Console.WriteLine();
+                Console.Write("Enter the license type (Code 8, Code 10, Code 11, Code 14) or type 'done' to finish: ");
                 string licenseType = Console.ReadLine();
 
                 if (licenseType.ToLower() == "done")
@@ -98,7 +109,6 @@ namespace ConsoleApp1.Classes
 
         public void EditDriver()
         {
-            Console.WriteLine("===== Editing Drivers =====");
             Console.WriteLine($"Editing Driver {Name} {Surname}");
 
             Console.Write("New Name (leave blank to keep current): ");
@@ -111,33 +121,60 @@ namespace ConsoleApp1.Classes
             if (!string.IsNullOrEmpty(newSurname)) Surname = newSurname;
             Console.WriteLine();
 
-            //add employeeNo edit later zzzzzzZZZZZZZ
+            //no employeeNo edit because it is constant
 
-            Console.WriteLine("Add License Types (enter 'done' to finish: ");
+            Console.WriteLine("Current License Types: " + string.Join(", ", LicenseTypes));
+            Console.WriteLine("Add or remove license types? (add/remove/none): ");
+            string choice = Console.ReadLine().ToLower();
 
-            while (true)
+            if (choice == "add")
             {
-                Console.Write("Enter License Type: ");
+                Console.Write("Enter License Type to add: ");
                 string licenseType = Console.ReadLine();
-
-                if (licenseType.ToLower() == "done")
-                    break;
-
                 AddLicenseType(licenseType);
             }
+            else if (choice == "remove")
+            {
+                Console.Write("Enter License Type to remove: ");
+                string licenseType = Console.ReadLine();
+                if (LicenseTypes.Contains(licenseType))
+                {
+                    LicenseTypes.Remove(licenseType);
+                    Console.WriteLine($"License Type '{licenseType}' removed from driver {Name} {Surname}.");
+                }
+                else
+                {
+                    Console.WriteLine($"Driver {Name} {Surname} does not have '{licenseType}'");
+                }
 
-            Console.WriteLine($"Driver {Name} {Surname} updated.");
-
+                Console.WriteLine($"Driver {Name} {Surname} updated.");
+            }
         }
 
         public void ViewDriverAvailability()
         {
-            Console.WriteLine("===== View Available Drivers =====");
+            Console.WriteLine($"Driver {Name} {Surname} is available for work.");
         }
 
-        //public static SearchDriver()
-        //{
+        public static Drivers SearchDriver(List<Drivers> driverList, int employeeNo)
+        {
+            foreach (var driver in driverList)
+            {
+                if (driver.EmployeeNo == employeeNo)
+                {
+                    Console.WriteLine($"Found Driver: {driver.Name} {driver.Surname}, Employee No: {driver.EmployeeNo}");
+                    Console.WriteLine("License Types: " + string.Join(", ", driver.LicenseTypes));
+                    return driver;
+                }
+            }
+            Console.WriteLine($"Driver with Employee No '{employeeNo}' not found.");
+            return null;
+        }
 
-        //}
+        public override string ToString()
+        {
+            string licenseTypes = string.Join(", ", _LicenseTypes);
+            return $"Employee No: {_EmployeeNo}, Name: {_Name} {_Surname}, License Types: {licenseTypes}, Available: {Availability}";
+        }
     }
 }
