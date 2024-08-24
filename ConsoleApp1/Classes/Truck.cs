@@ -22,6 +22,32 @@ namespace ConsoleApp1.Classes
             set { _LoadCapacity = value; }
         }
 
+        public void GetVehicleInfo()
+        {
+            bool correct = false;
+            while (!correct)
+            {
+                Truck truck = new Truck();
+                
+
+                Console.WriteLine("==== Enter Car Details ====\n");
+                Console.Write("Enter vehicle make: ");
+                Make = Console.ReadLine();
+                Console.Write("Enter vehicle model: ");
+                Model = Console.ReadLine();
+                Console.Write("Enter vehicle year: ");
+                Year = int.Parse(Console.ReadLine());
+                Console.Write("Enter vehicle numberplate: ");
+                NumberPlate = Console.ReadLine();
+                Console.Write("Enter vehicle availability(Available, Unavailable, Under Maintenance): ");
+                Availability = Console.ReadLine();
+
+                Vehicles vehicles = new Vehicles(Make, Model, Year, NumberPlate, Availability);
+                correct = truck.AddVehicle(vehicles);
+            }
+            
+        }
+
         public override bool AddVehicle(Vehicles vehicle) //returns a bool to determine if the numberplate is unique or not
         {
             bool NotUnique = false;
