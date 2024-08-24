@@ -60,6 +60,8 @@
     <Compile Include="Classes\Roles.cs" />
     <Compile Include="Classes\Truck.cs" />
     <Compile Include="Classes\Vehicles.cs" />
+    <Compile Include="Exceptions\DeliveryTaskNotFoundException.cs" />
+    <Compile Include="Exceptions\DriverNotFoundException.cs" />
     <Compile Include="Exceptions\InvalidAvailabilityException.cs" />
     <Compile Include="Exceptions\InvalidDeliveryStatusException.cs" />
     <Compile Include="Exceptions\InvalidTypeException.cs" />

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleApp1.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,18 +14,27 @@ namespace ConsoleApp1.Classes
         int _EmployeeNo; //May need to change. Currently here as the "unique identifier"
         private List<string> _LicenseTypes;
         public bool Availability { get; set; }
+        private static List<Drivers> _DriverList = new List<Drivers>();
 
-        string Name
+        private OperationLogs _OperationLogs;
+
+        public static List<Drivers> DriverList
+        {
+            get { return _DriverList; }
+            set { _DriverList = value; }
+        }
+
+        public string Name
         {
             get { return _Name; }
             set { _Name = value; }
         }
-        string Surname
+        public string Surname
         {
             get { return _Surname; }
             set { _Surname = value; }
         }
-        int EmployeeNo
+        public int EmployeeNo
         {
             get { return _EmployeeNo; }
             set { _EmployeeNo = value; }
@@ -42,6 +52,8 @@ namespace ConsoleApp1.Classes
             _EmployeeNo = employeeNo;
             _LicenseTypes = new List<string>();
             Availability = availability;
+
+            DriverList.Add(this);
         }
 
         private bool IsValidLiscenseType(string licenseType)
@@ -73,7 +85,7 @@ namespace ConsoleApp1.Classes
         public static Drivers AddDrivers()
         {
             Console.WriteLine("===== Adding Drivers =====");
-           
+
             Console.WriteLine();
             Console.Write("Enter the Driver's Name: ");
             string name = Console.ReadLine();
@@ -85,12 +97,12 @@ namespace ConsoleApp1.Classes
             Console.WriteLine();
             Console.Write("Enter Driver's Employee Number: ");
             int employeeNo = int.Parse(Console.ReadLine());
-            
+
             Console.WriteLine();
             Console.Write("Is the Driver Available? (true/false): ");
             bool availability = bool.Parse(Console.ReadLine());
 
-            Drivers driver = new Drivers(name, surname, employeeNo, availability);
+            Drivers newDriver = new Drivers(name, surname, employeeNo, availability);
 
             while (true)
             {
@@ -102,14 +114,23 @@ namespace ConsoleApp1.Classes
                 {
                     break;
                 }
-                driver.AddLicenseType(licenseType);
+                newDriver.AddLicenseType(licenseType);
             }
-            return driver;
+            DriverList.Add(newDriver);
+            return newDriver;
         }
-
 
         public void EditDriver()
         {
+            Console.Write("Enter Employee Number of the driver to edit: ");
+            int editEmployeeNo = int.Parse(Console.ReadLine());
+            SearchDriver(editEmployeeNo);
+            Drivers driverToEdit = SearchDriver(editEmployeeNo);
+            if (driverToEdit == null)
+            {
+                Console.WriteLine("Driver not found.");
+            }
+
             Console.WriteLine($"Editing Driver {Name} {Surname}");
 
             Console.Write("New Name (leave blank to keep current): ");
@@ -152,30 +173,40 @@ namespace ConsoleApp1.Classes
             }
         }
 
-
-        public void ViewDriverAvailability()
+        public static void ViewAllDrivers()
         {
-            Console.WriteLine($"Driver {Name} {Surname} is available for work.");
-        }
-
-
-        public static Drivers SearchDriver(List<Drivers> driverList, int employeeNo)
-        {
-            foreach (var driver in driverList)
+            foreach (var driver in DriverList)
             {
-                if (driver.EmployeeNo == employeeNo)
+                Console.WriteLine(driver.GetDetails());
+            }
+        }
+        public static void ViewDriverAvailability()
+        {
+            foreach (var driver in DriverList)
+            {
+                if (driver.Availability)  // Only show available drivers
                 {
-                    Console.WriteLine($"Found Driver: {driver.Name} {driver.Surname}, Employee No: {driver.EmployeeNo}");
-                    Console.WriteLine("License Types: " + string.Join(", ", driver.LicenseTypes));
-                    return driver;
+                    Console.WriteLine(driver.GetDetails());
                 }
             }
-            Console.WriteLine($"Driver with Employee No '{employeeNo}' not found.");
-            return null;
         }
 
+        public static Drivers SearchDriver(int EmployeeNo)
+        {
+            Drivers FoundDriver = DriverList.Find(driver => driver.EmployeeNo == EmployeeNo);
 
-        public override string ToString()
+            if (FoundDriver != null)
+            {
+                return FoundDriver;
+
+            }
+            else
+            {
+                throw new DriverNotFoundException("Driver not found");
+            }
+        }
+
+        public string GetDetails()
         {
             string licenseTypes = string.Join(", ", _LicenseTypes);
             return $"Employee No: {_EmployeeNo}, Name: {_Name} {_Surname}, License Types: {licenseTypes}, Available: {Availability}";

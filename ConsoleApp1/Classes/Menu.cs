@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace ConsoleApp1.Classes
 {
@@ -18,6 +19,8 @@ namespace ConsoleApp1.Classes
         enum DeliveryManagement
         {
             Add_Delivery,
+            Assign_Vehicle,
+            Assign_Driver,
             View_Deliveries,
             Search_Deliveries,
             Back
@@ -26,7 +29,7 @@ namespace ConsoleApp1.Classes
         {
             Add_Vehicle,
             Edit_Vehicle,
-            View_All_Vechiles,
+            View_All_Vehicles,
             View_Available_Vehicles,
             View_Vehicles_under_maintenance,
             Search_Vehicle,
@@ -36,6 +39,7 @@ namespace ConsoleApp1.Classes
         {
             Add_Driver,
             Edit_Driver,
+            View_All_Drivers,
             View_Driver_Availability,
             Search_Driver,
             Back
@@ -43,6 +47,7 @@ namespace ConsoleApp1.Classes
 
         public static void StartApp()
         {
+           
             bool FirstRun = true;
             bool Exit = false;
             do
@@ -98,7 +103,7 @@ namespace ConsoleApp1.Classes
                 switch (Option_Delivery)
                 {
                     case 1://Add_Delivery
-                        Console.WriteLine("Delievery Preset: \n 1. Default \n 2. Custom");
+                        Console.WriteLine("Delivery Preset: \n 1. Default \n 2. Custom");
 
                         int Option_Delivery_Sub = 0;
                         bool validOption = false;
@@ -136,21 +141,35 @@ namespace ConsoleApp1.Classes
                         }
 
                         break;
-                    case 2://View_Deliveries
-                        Console.Clear();
-            
+                    case 2: //Assign Vehicle
+                        Console.WriteLine("Please enter the Order numer");
+                        string OrderNumber = Console.ReadLine();
+                        Console.WriteLine("Please enter the vehicles license plate");
+                        string NumberPlate=Console.ReadLine();
+                        Delivery.AssignVehicleToOrder(OrderNumber, NumberPlate);
                         Console.ReadLine();
                         break;
-                    case 3://Search_Deliveries
+                    case 3: //Assign Driver
+
+                        //Delivery.AssignDriverToOrder();
+                        break;
+
+
+                    case 4://View_Deliveries
+                        Console.Clear();
+                        Delivery.ViewAllDeliveries();
+                        Console.ReadLine();
+                        break;
+                    case 5://Search_Deliveries
                         Console.Clear();
                   
                         Console.ReadLine();
                         break;
-                    case 4://back
+                    case 6://back
                         back = true;
                         break;
                     default:
-                        Console.WriteLine("Invalid Option, please select an number between 1 and 4");
+                        Console.WriteLine("Invalid Option, please select an number between 1 and 6");
                         break;
                 }
             } while (back != true);
@@ -213,7 +232,10 @@ namespace ConsoleApp1.Classes
         }
         public static void Driver_Management()
         {
-            List<Drivers> driverList = new List<Drivers>();
+            //For test purposes
+            //Drivers defaultDriver = new Drivers("Joe", "Da", 200,true);
+            //driverList.Add(defaultDriver);
+
             bool back = false;
             do
             {
@@ -228,7 +250,6 @@ namespace ConsoleApp1.Classes
                     case 1://Add_Driver
                         Console.Clear();
                         Drivers newDriver = Drivers.AddDrivers();
-                        driverList.Add(newDriver);
                         Console.WriteLine("Driver added succesfully");
                         Console.ReadLine();
                         break;
@@ -236,54 +257,35 @@ namespace ConsoleApp1.Classes
                         Console.Clear();
                         Console.WriteLine("===== Editing Drivers =====");
                         Console.WriteLine();
-                        Console.Write("Enter Employee Number of the driver to edit: ");
-                        int editEmployeeNo = int.Parse(Console.ReadLine());
-                        Drivers.SearchDriver(driverList,editEmployeeNo);
-                        Drivers driverToEdit = Drivers.SearchDriver(driverList, editEmployeeNo);
-                        if (driverToEdit != null)
-                        {
-                            driverToEdit.EditDriver();
-                            Console.WriteLine("Driver edited successfully.");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Driver not found.");
-                        }
+
                         Console.ReadLine();
                         break;
-                    case 3://View_Driver_Availability
+                    case 3://View all Drivers
+                        Console.Clear();
+                        Drivers.ViewAllDrivers();
+                        Console.ReadLine();
+                        break;
+                    case 4://View_Driver_Availability
                         Console.Clear();
                         Console.WriteLine("===== View Available Drivers =====");
                         Console.WriteLine();
                         Console.WriteLine("Available Drivers:");
-                        foreach (var driver in driverList)
-                        {
-                            if (driver.Availability)  // Only show available drivers
-                            {
-                                Console.WriteLine(driver.ToString());
-                            }
-                        }
+                        Drivers.ViewDriverAvailability();
                         Console.ReadLine();
                         break;
-                    case 4://Search_Driver
+                    case 5://Search_Driver
                         Console.Clear();
+
                         Console.WriteLine("===== Search Driver =====");
                         Console.WriteLine();
                         Console.Write("Enter Employee Number of the driver to search: ");
-                        int searchEmployeeNo = int.Parse(Console.ReadLine());
-                        Drivers searchedDriver = Drivers.SearchDriver(driverList, searchEmployeeNo);
-                        if (searchedDriver != null)
-                        {
-                            Console.WriteLine("Driver found:");
-                            searchedDriver.ViewDriverAvailability();
-                        }
-                        else
-                        {
-                            Console.WriteLine("Driver not found.");
-                        }
+                        int SearchEmployeeNo = int.Parse(Console.ReadLine());
+                        Drivers searchedDriver = Drivers.SearchDriver(SearchEmployeeNo);
+                        Console.WriteLine($"Driver {searchedDriver.Name} {searchedDriver.Surname} is available for work.");
+
                         Console.ReadLine();
                         break;
-                    case 5://back
+                    case 6://back
                         back = true;
                         break;
                     default:

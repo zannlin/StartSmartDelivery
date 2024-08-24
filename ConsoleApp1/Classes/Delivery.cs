@@ -57,27 +57,99 @@ namespace ConsoleApp1.Classes
             }
         }
 
-        public static void AssignDriverToOrder(string orderNumber, Drivers driver)
+        public static void AssignVehicleToOrder(string OrderNumber, string Numberplate)
         {
-            DeliveryTask taskToAssign = DeliveryTask.DeliveryTaskList.Find(task => task.OrderNumber.Equals(orderNumber, StringComparison.OrdinalIgnoreCase));
-
-            if (taskToAssign != null)
+            Delivery DeliveryToAssign = DeliveryList.Find(delivery => delivery.AssignedTask.OrderNumber.Equals(OrderNumber, StringComparison.OrdinalIgnoreCase));
+           
+            if (DeliveryToAssign != null)
             {
-              
+               
+                Vehicles VehicleToAssign = Vehicles.VehicleList.Find(vehicle =>vehicle.NumberPlate.Equals(Numberplate, StringComparison.OrdinalIgnoreCase));
 
-                //((Delivery)taskToAssign).AssignedDriver = driver;
-                //Console.WriteLine($"Driver {driver.Fullname} assigned to Order {orderNumber}.");
+                if (VehicleToAssign != null)
+                {
+                
+                    DeliveryToAssign.AssignedVehicle = VehicleToAssign;
+                    Console.WriteLine($"Vehicle {VehicleToAssign.Make} {VehicleToAssign.Model} with NumberPlate {Numberplate} assigned to Order {OrderNumber}.");
+                }
+                else
+                {
+                    throw new VehicleNotFoundException("Vehicle not found in list");
+                }
             }
             else
             {
-                Console.WriteLine("Order not found.");
+                throw new DeliveryTaskNotFoundException("Order not found");
             }
+
+        }
+        public static void AssignDriverToOrder(string OrderNumber, int EmployeeNo)
+        {
+            Delivery deliveryToAssign = DeliveryList.Find(delivery => delivery.AssignedTask.OrderNumber.Equals(OrderNumber, StringComparison.OrdinalIgnoreCase));
+            //Search for driver like above
+
+            //if (deliveryToAssign != null)
+            //{
+            //    // Assign the driver to the found delivery
+            //    deliveryToAssign.AssignedDriver = driver;
+            //    driver.Availability = false; //Make unavailable
+            //    Console.WriteLine($"Driver {driver.Name} {driver.Surname} with the EmployeeNO {driver.EmployeeNo} was assigned to Order {orderNumber}.");
+            //}
+            //else
+            //{
+            //    Console.WriteLine("Order not found.");
+            //}
         }
 
         public static void ViewAllDeliveries()
         {
-            DeliveryTask.ViewAllDeliveryTasks();
+            if (DeliveryList.Count == 0)
+            {
+                Console.WriteLine("No deliveries available.");
+            }
+            else
+            {
+                Console.WriteLine("===== List of Deliveries =====");
+                foreach (var delivery in DeliveryList)
+                {
+                    // Display the delivery task details
+                    delivery.AssignedTask.DisplayDetails();
+
+                    // Display the assigned driver
+                    if (delivery.AssignedDriver != null)
+                    {
+                        Console.WriteLine($"Assigned Driver: {delivery.AssignedDriver.Name} {delivery.AssignedDriver.Surname} - EmployeeNo: {delivery.AssignedDriver.EmployeeNo}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Assigned Driver: Unassigned");
+                    }
+
+                    // Display the assigned vehicle
+                    if (delivery.AssignedVehicle != null)
+                    {
+                        Console.WriteLine($"Assigned Vehicle: {delivery.AssignedVehicle.Make} {delivery.AssignedVehicle.Model}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Assigned Vehicle: Unassigned");
+                    }
+
+                    // Display the delivery status
+                    if (!string.IsNullOrEmpty(delivery.DeliveryStatus))
+                    {
+                        Console.WriteLine($"Delivery Status: {delivery.DeliveryStatus}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Delivery Status: Unassigned");
+                    }
+
+                    Console.WriteLine(); // Add a line break between deliveries
+                }
+            }
         }
+
 
         public Delivery() { }
 

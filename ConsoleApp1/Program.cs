@@ -11,6 +11,8 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
+            OperationLogs logging = new OperationLogs();
+            logging.Start();
 
             //Console.WriteLine("ADMIN LOGIN");
             //Console.WriteLine("===========");
@@ -59,12 +61,18 @@ namespace ConsoleApp1
             customTask.AddCustomField("Special Instructions", "Leave at the back door");
             customTask.AddCustomField("Delivery Type", "Express");
 
-            List<DeliveryTask> list = DeliveryTask.DeliveryTaskList;
-            list.Add(defaultTask);
-            list.Add(customTask);
+            Truck truck1 = new Truck("Volvo", "FH16", 2020, "ABC1234", 25.5);
+            Truck truck2 = new Truck("Scania", "R500", 2019, "XYZ5678", 30.0);
+            Truck truck3 = new Truck("Mercedes-Benz", "Actros", 2021, "LMN9101", 28.75);
+
+            //This shouldnt be necessary anymore
+            //List<DeliveryTask> list = DeliveryTask.DeliveryTaskList;
+            //list.Add(defaultTask);
+            //list.Add(customTask);
 
             Menu.StartApp();
             Console.ReadLine();
+            logging.Stop();
             //}
 
         }

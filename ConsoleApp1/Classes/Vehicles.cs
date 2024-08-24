@@ -16,6 +16,7 @@ namespace ConsoleApp1.Classes
         static readonly string[] AllowedValues = { "Available", "Unavailable", "Under Maintenance" };
 
         private static List<Vehicles> _VehicleList = new List<Vehicles>();
+
         string _Make;
         string _Model;
         int _Year;
@@ -23,13 +24,15 @@ namespace ConsoleApp1.Classes
         string _Availability;
 
         public Vehicles() { }
-        public Vehicles(string Make, string Model, int Year, string NumberPlate, string Availability)
+        public Vehicles(string Make, string Model, int Year, string NumberPlate)
         {
             _Make = Make;
             _Model = Model;
             _Year = Year;
             _NumberPlate = NumberPlate;
-            _Availability = Availability;
+            Availability = "Available";
+
+            VehicleList.Add(this);
         }
 
         public static List<Vehicles> VehicleList
@@ -121,9 +124,9 @@ namespace ConsoleApp1.Classes
             else
             {
                 Console.WriteLine("===== List of Vehicles =====");
-                foreach (var vehicle in VehicleList)
+                foreach (var Vehicle in VehicleList)
                 {
-                    DisplayDetails();
+                    Vehicle.DisplayDetails();
                 }
             }
         }
@@ -138,9 +141,9 @@ namespace ConsoleApp1.Classes
             else
             {
                 Console.WriteLine("===== List of Available Vehicles =====");
-                foreach (var vehicle in availableVehicles)
+                foreach (var Vehicle in VehicleList)
                 {
-                    DisplayDetails();
+                    Vehicle.DisplayDetails();
                 }
             }
         }
@@ -157,9 +160,9 @@ namespace ConsoleApp1.Classes
             else
             {
                 Console.WriteLine("===== List of Vehicles under Maintanence =====");
-                foreach (var vehicle in availableVehicles)
+                foreach (var Vehicle in VehicleList)
                 {
-                    DisplayDetails();
+                    Vehicle.DisplayDetails();
                 }
             }
 
