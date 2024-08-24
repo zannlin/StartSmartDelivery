@@ -25,6 +25,7 @@ namespace ConsoleApp1.Classes
         enum VehicleManagement
         {
             Add_Vehicle,
+            Remove_Vehicle,
             Edit_Vehicle,
             View_All_Vechiles,
             View_Available_Vehicles,
@@ -143,7 +144,7 @@ namespace ConsoleApp1.Classes
                         break;
                     case 3://Search_Deliveries
                         Console.Clear();
-                  
+                        
                         Console.ReadLine();
                         break;
                     case 4://back
@@ -158,6 +159,7 @@ namespace ConsoleApp1.Classes
         public static void Vehicle_Management()
         {
             Vehicles VehicleManager = new Vehicles();
+            Truck truck = new Truck();
             bool back = false;
 
             do
@@ -173,12 +175,13 @@ namespace ConsoleApp1.Classes
                     
                     case 1://Add_Vehicle
                         Console.Clear();
-
+                        truck.GetVehicleInfo();
                         Console.ReadLine();
                         break;
                     case 2://Remove_Vehicle
                         Console.Clear();
-
+                        Console.Write("Enter a vehicle license plate: ");
+                        VehicleManager.RemoveVehicle(Console.ReadLine());
                         Console.ReadLine();
                         break;
                     case 3://ViewAllVehicles

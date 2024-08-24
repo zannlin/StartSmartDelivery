@@ -92,7 +92,7 @@ namespace ConsoleApp1.Classes
             }
 
             CustomDeliveryTask deliveryTask = new CustomDeliveryTask(newOrderNumber, newDate, newDay, newTime, newName, newTelephone, newCellphone, newEmail, newAddress, newProduct, newAmount, newPaymentMethod, newNotes );
-            DeliveryList.Add(deliveryTask);
+            //DeliveryList.Add(deliveryTask);
 
             // Call the publisher
             PublishOrderCreated(deliveryTask);
