@@ -181,7 +181,7 @@ namespace ConsoleApp1.Classes
             if (foundVehicle != null)
             {
                 Console.WriteLine("Vehicle found:");
-                Console.WriteLine($"Make: {foundVehicle.Make}, Model: {foundVehicle.Model}, Year: {foundVehicle.Year}, Number Plate: {foundVehicle.NumberPlate}, Status: {foundVehicle.Status}, Availability: {foundVehicle.Availability}");
+                DisplayDetails();
             }
             else
             {
