@@ -15,6 +15,7 @@ namespace ConsoleApp1.Classes
             Delivery_Management,
             Vehicle_Management,
             Driver_Management,
+            View_Logs,
             Exit
         }
         enum DeliveryManagement
@@ -79,7 +80,11 @@ namespace ConsoleApp1.Classes
                     case 3://Driver_Management
                         Driver_Management();
                         break;
-                    case 4://exit
+                    case 4:
+                        ViewLogs(logging);
+                        Console.ReadLine();
+                        break;
+                    case 5://exit
                         Console.Clear();
                         Console.WriteLine("Exiting app. Enjoy your day!");
                         Exit = true;
@@ -163,8 +168,6 @@ namespace ConsoleApp1.Classes
                         Delivery.AssignDriverToOrder(OrderNumber, EmployeeNumber);
                         Console.ReadLine();
                         break;
-
-
                     case 4://View_Deliveries
                         Console.Clear();
                         Delivery.ViewAllDeliveries();
@@ -176,7 +179,6 @@ namespace ConsoleApp1.Classes
                         OrderNumber = Console.ReadLine();
                         Delivery result = Delivery.SearchDeliveries(OrderNumber);
                         result.GetDetails();
-
                         Console.ReadLine();
                         break;
                     case 6://back
@@ -187,6 +189,27 @@ namespace ConsoleApp1.Classes
                         break;
                 }
             } while (back != true);
+        }
+        private static void ViewLogs(OperationLogs logging)
+        {
+            Console.Clear();
+            Console.WriteLine("===== Operation Logs =====");
+
+            List<string> logs = logging.GetLogs();
+
+            if (logs.Count == 0)
+            {
+                Console.WriteLine("No logs available.");
+            }
+            else
+            {
+                foreach (var log in logs)
+                {
+                    Console.WriteLine(log);
+                }
+            }
+
+            Console.ReadLine();
         }
         public static void Vehicle_Management()
         {
@@ -218,7 +241,8 @@ namespace ConsoleApp1.Classes
                         break;
                     case 3://edit vehicle
                         Console.Clear();
-
+                        Console.WriteLine("Enter shit: ");
+                        VehicleManager.EditVehicle(Console.ReadLine());
                         Console.ReadLine();
                         break;
                     case 4://ViewAllVehicles

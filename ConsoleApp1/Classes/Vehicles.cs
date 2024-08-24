@@ -100,7 +100,7 @@ namespace ConsoleApp1.Classes
         public void RemoveVehicle(string NumberPlate)
         {
             Console.WriteLine("===== Removing Vehicle =====");
-            lock (_VehicleList); // Lock the list to prevent other threads from accessing it thus preventing concurrency errors. 
+            lock (_VehicleList) ; // Lock the list to prevent other threads from accessing it thus preventing concurrency errors. 
             Vehicles VehicleToRemove = _VehicleList.Find(v => v.NumberPlate == NumberPlate);
             if (VehicleToRemove != null)
             {
@@ -189,9 +189,65 @@ namespace ConsoleApp1.Classes
 
         public virtual void EditVehicle(string numberplate)
         {
+            List<string> requiredOption = new List<string>();
+            requiredOption.Add("Make");
+            requiredOption.Add("Model"); 
+            requiredOption.Add("Year");
+            requiredOption.Add("NumberPlate");
+            requiredOption.Add("Availability");
+
             Vehicles foundVehicle = VehicleList.Find(v => v.NumberPlate.Equals(NumberPlate, StringComparison.OrdinalIgnoreCase));
 
             if (foundVehicle != null)
+            {
+                SearchVehicle(numberplate);
+                Console.Write("Enter the value you would like to change: ");
+                string change = Console.ReadLine().ToLower();
+
+                int option = 0;
+                bool IsCorrect = false;
+                while (IsCorrect)
+                {
+                    foreach (string item in requiredOption)
+                    {
+                        Console.WriteLine($"Press {requiredOption.IndexOf(item)} to edit {item}");
+                    }
+                    IsCorrect = int.TryParse(Console.ReadLine(), out option);
+                    if (!IsCorrect)
+                    {
+                        Console.WriteLine("Input is invalid, please try again");
+                    }
+                }
+
+                switch (option)
+                {
+                    case 0:
+                        Console.Write("Enter vehicle make: ");
+                        foundVehicle.Make = Console.ReadLine();
+                        break;
+                    case 1:
+                        Console.Write("Enter vehicle model: ");
+                        foundVehicle.Model = Console.ReadLine();
+                        break;
+                    case 2:
+                        Console.Write("Enter vehicle year: ");
+                        foundVehicle.Year = int.Parse(Console.ReadLine());
+                        break;
+                    case 3:
+                        Console.Write("Enter vehicle numberplate: ");
+                        foundVehicle.NumberPlate = Console.ReadLine();
+                        break;
+                    case 4:
+                        Console.Write("Enter vehicle availability(Available, Unavailable, Under Maintenance): ");
+                        foundVehicle.Availability = Console.ReadLine();
+                        break;
+                    default:
+                        Console.WriteLine("Invalid Option entered");
+                        break;
+                }
+
+            }
+            else
             {
                 SearchVehicle(numberplate);
             }

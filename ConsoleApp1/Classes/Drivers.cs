@@ -18,12 +18,9 @@ namespace ConsoleApp1.Classes
 
         private OperationLogs _OperationLogs;
 
-        //_OperationLogs.LogOperation($"Added driver: {Name} {Surname}");
-        private OperationLogs _operationLogs;
-
         public Drivers(OperationLogs operationLogs)
         {
-            _operationLogs = operationLogs;
+            _OperationLogs = operationLogs;
         }
 
         public static List<Drivers> DriverList
@@ -154,16 +151,20 @@ namespace ConsoleApp1.Classes
             if (licenseOption == "add")
             {
                 Console.Write("Enter License Type to add: ");
+                Console.Write("(Code 8, Code 10, Code 11, Code 14) ");
                 string licenseTypeToAdd = Console.ReadLine();
+                _OperationLogs.LogOperation($"Driver {driverToEdit.Name} added license type {licenseTypeToAdd}");
                 driverToEdit.AddLicenseType(licenseTypeToAdd);
             }
             else if (licenseOption == "remove")
             {
                 Console.Write("Enter License Type to remove: ");
+                Console.Write("(Code 8, Code 10, Code 11, Code 14) ");
                 string licenseTypeToRemove = Console.ReadLine();
                 if (driverToEdit.LicenseTypes.Contains(licenseTypeToRemove))
                 {
                     driverToEdit.LicenseTypes.Remove(licenseTypeToRemove);
+                    _OperationLogs.LogOperation($"Driver {driverToEdit.Name} removed license type {licenseTypeToRemove}");
                     Console.WriteLine($"License Type '{licenseTypeToRemove}' removed from driver {driverToEdit.Name} {driverToEdit.Surname}.");
                 }
                 else
@@ -173,7 +174,7 @@ namespace ConsoleApp1.Classes
             }
 
             // Log the edit
-            _operationLogs.LogOperation($"Edited driver {driverToEdit.Name} {driverToEdit.Surname} (Employee No: {driverToEdit.EmployeeNo}).");
+            _OperationLogs.LogOperation($"Edited driver {driverToEdit.Name} {driverToEdit.Surname} (Employee No: {driverToEdit.EmployeeNo}).");
 
             Console.WriteLine($"Driver {driverToEdit.Name} {driverToEdit.Surname} updated successfully.");
         }
