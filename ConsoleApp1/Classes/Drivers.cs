@@ -119,7 +119,6 @@ namespace ConsoleApp1.Classes
             string licenceType = Console.ReadLine();
             Drivers newDriver = new Drivers(name, surname, employeeNo, licenceType);
 
-            DriverList.Add(newDriver);
             return newDriver;
         }
 

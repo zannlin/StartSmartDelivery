@@ -76,7 +76,6 @@ namespace ConsoleApp1
 
             Menu.StartApp();
             Console.ReadLine();
-            //logging.Stop();
             //}
 
         }
