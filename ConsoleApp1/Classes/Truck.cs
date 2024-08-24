@@ -11,7 +11,7 @@ namespace ConsoleApp1.Classes
         private double _LoadCapacity;
 
         public Truck() { }
-        public Truck(string Make, string Model, int Year, string NumberPlate, string Status, string Availability, double LoadCapacity) : base(Make, Model, Year, NumberPlate, Status, Availability)
+        public Truck(string Make, string Model, int Year, string NumberPlate, string Availability, double LoadCapacity) : base(Make, Model, Year, NumberPlate, Availability)
         {
             _LoadCapacity = LoadCapacity;
         }
@@ -46,7 +46,7 @@ namespace ConsoleApp1.Classes
                     }
                 }
 
-                Truck truck = new Truck(vehicle.Make, vehicle.Model, vehicle.Year, vehicle.NumberPlate, vehicle.Status, vehicle.Availability, LoadCap);
+                Truck truck = new Truck(vehicle.Make, vehicle.Model, vehicle.Year, vehicle.NumberPlate, vehicle.Availability, LoadCap);
                 VehicleList.Add(truck);
                 Console.WriteLine($"\n{vehicle.Make} {vehicle.Model} with number plate {vehicle.NumberPlate} added successfully!");
                 return true;

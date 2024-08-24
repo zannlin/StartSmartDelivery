@@ -95,7 +95,7 @@ namespace ConsoleApp1.Classes
             while (true)
             {
                 Console.WriteLine();
-                Console.Write("Enter the license type (Code 8, Code 10, Code 11, Code 14) or type 'done' to finish: ");
+                Console.Write("Enter the license type (Code 8, Code 10, Code 11, Code 14) or type 'Done' to finish: ");
                 string licenseType = Console.ReadLine();
 
                 if (licenseType.ToLower() == "done")
@@ -106,6 +106,7 @@ namespace ConsoleApp1.Classes
             }
             return driver;
         }
+
 
         public void EditDriver()
         {
@@ -151,10 +152,12 @@ namespace ConsoleApp1.Classes
             }
         }
 
+
         public void ViewDriverAvailability()
         {
             Console.WriteLine($"Driver {Name} {Surname} is available for work.");
         }
+
 
         public static Drivers SearchDriver(List<Drivers> driverList, int employeeNo)
         {
@@ -170,6 +173,7 @@ namespace ConsoleApp1.Classes
             Console.WriteLine($"Driver with Employee No '{employeeNo}' not found.");
             return null;
         }
+
 
         public override string ToString()
         {

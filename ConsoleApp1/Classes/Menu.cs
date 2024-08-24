@@ -100,16 +100,16 @@ namespace ConsoleApp1.Classes
                     case 1://Add_Delivery
                         Console.WriteLine("Delievery Preset: \n 1. Default \n 2. Custom");
 
-                        int option = 0;
+                        int Option_Delivery_Sub = 0;
                         bool validOption = false;
 
                         while (!validOption)
                         {
                             string input = Console.ReadLine();
 
-                            if (int.TryParse(input, out option))
+                            if (int.TryParse(input, out Option_Delivery_Sub))
                             {
-                                if (option == 1 || option == 2)
+                                if (Option_Delivery_Sub == 1 || Option_Delivery_Sub == 2)
                                 {
                                     validOption = true;
                                 }
@@ -124,12 +124,12 @@ namespace ConsoleApp1.Classes
                             }
                         }
 
-                        if (option == 1)
+                        if (Option_Delivery_Sub == 1)
                         {
                             Console.Clear();
                             DefaultDeliveryManager.CreateOrder();
                         }
-                        else if (option == 2)
+                        else if (Option_Delivery_Sub == 2)
                         {
                             Console.Clear();
                             CustomDeliveryManager.CreateOrder();
@@ -137,13 +137,20 @@ namespace ConsoleApp1.Classes
 
                         break;
                     case 2://View_Deliveries
-                        DefaultDeliveryManager.ViewAllDeliveries();
+                        Console.Clear();
+            
+                        Console.ReadLine();
                         break;
                     case 3://Search_Deliveries
-
+                        Console.Clear();
+                  
+                        Console.ReadLine();
                         break;
                     case 4://back
                         back = true;
+                        break;
+                    default:
+                        Console.WriteLine("Invalid Option, please select an number between 1 and 4");
                         break;
                 }
             } while (back != true);
@@ -152,6 +159,7 @@ namespace ConsoleApp1.Classes
         {
             Vehicles VehicleManager = new Vehicles();
             bool back = false;
+
             do
             {
                 int Option_Vehicle;
@@ -162,10 +170,15 @@ namespace ConsoleApp1.Classes
                 Option_Vehicle = int.Parse(Console.ReadLine());
                 switch (Option_Vehicle)
                 {
+                    
                     case 1://Add_Vehicle
+                        Console.Clear();
+
                         Console.ReadLine();
                         break;
-                    case 2://Edit_Vehicle
+                    case 2://Remove_Vehicle
+                        Console.Clear();
+
                         Console.ReadLine();
                         break;
                     case 3://ViewAllVehicles
@@ -191,6 +204,9 @@ namespace ConsoleApp1.Classes
                     case 7://back
                         back = true;
                         break;
+                    default:
+                        Console.WriteLine("Invalid Option, please select an number between 1 and 7");
+                        break;
                 }
             } while (back != true);
 
@@ -198,7 +214,6 @@ namespace ConsoleApp1.Classes
         public static void Driver_Management()
         {
             List<Drivers> driverList = new List<Drivers>();
-
             bool back = false;
             do
             {
@@ -223,6 +238,7 @@ namespace ConsoleApp1.Classes
                         Console.WriteLine();
                         Console.Write("Enter Employee Number of the driver to edit: ");
                         int editEmployeeNo = int.Parse(Console.ReadLine());
+                        Drivers.SearchDriver(driverList,editEmployeeNo);
                         Drivers driverToEdit = Drivers.SearchDriver(driverList, editEmployeeNo);
                         if (driverToEdit != null)
                         {
@@ -269,6 +285,9 @@ namespace ConsoleApp1.Classes
                         break;
                     case 5://back
                         back = true;
+                        break;
+                    default:
+                        Console.WriteLine("Invalid Option, please select an number between 1 and 5");
                         break;
                 }
             } while (back != true);

@@ -9,12 +9,12 @@ namespace ConsoleApp1.Classes
 {
     internal abstract class DeliveryTask
     {
-        static List<DeliveryTask> _DeliveryList = new List<DeliveryTask>();
+        static List<DeliveryTask> _DeliveryTaskList = new List<DeliveryTask>();
 
-        public static List<DeliveryTask> DeliveryList
+        public static List<DeliveryTask> DeliveryTaskList
         {
-            get { return _DeliveryList; }
-            set { _DeliveryList = value; }
+            get { return _DeliveryTaskList; }
+            set { _DeliveryTaskList = value; }
         }
         public string OrderNumber { get; set; }
         public string Date { get; set; }
@@ -78,21 +78,41 @@ namespace ConsoleApp1.Classes
                               $"Notes: {Notes}");
         }
 
-
         public abstract void CreateOrder();
-        public void ViewAllDeliveries()
+        public static void ViewAllDeliveryTasks()
         {
-            if (DeliveryList.Count == 0)
+            if (DeliveryTaskList.Count == 0)
             {
-                Console.WriteLine("No deliveries available.");
+                Console.WriteLine("No Delivery Tasks available.");
             }
             else
             {
-                Console.WriteLine("===== List of Deliveries =====");
-                foreach (var delivery in DeliveryList)
+                Console.WriteLine("===== List of Delivery Tasks =====");
+                foreach (var delivery in DeliveryTaskList)
                 {
                     delivery.DisplayDetails();
+                    Console.WriteLine();
                 }
+            }
+        }
+
+        public static void SearchDelieveryTasks()
+        {
+            Console.WriteLine("===== Searching Delivery Tasks =====");
+            Console.Write("Enter the Order Number of the Delivery Task to search: ");
+            string OrderNumber = Console.ReadLine();
+
+            // Find the vehicle with the matching number plate
+            DeliveryTask FoundDelivery = DeliveryTaskList.Find(v => v.OrderNumber.Equals(OrderNumber, StringComparison.OrdinalIgnoreCase));
+
+            if (FoundDelivery != null)
+            {
+                Console.WriteLine("Order found:");
+                FoundDelivery.DisplayDetails();
+            }
+            else
+            {
+                Console.WriteLine("Order not found.");
             }
         }
     }

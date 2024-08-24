@@ -52,14 +52,16 @@
     <Compile Include="Classes\Backup.cs" />
     <Compile Include="Classes\CustomDeliveryTask.cs" />
     <Compile Include="Classes\DefaultDeliveryTask.cs" />
-    <Compile Include="Classes\Deliveries.cs" />
+    <Compile Include="Classes\Delivery.cs" />
     <Compile Include="Classes\DeliveryTask.cs" />
     <Compile Include="Classes\Drivers.cs" />
     <Compile Include="Classes\Menu.cs" />
+    <Compile Include="Classes\OperationLogs.cs" />
     <Compile Include="Classes\Roles.cs" />
     <Compile Include="Classes\Truck.cs" />
     <Compile Include="Classes\Vehicles.cs" />
     <Compile Include="Exceptions\InvalidAvailabilityException.cs" />
+    <Compile Include="Exceptions\InvalidDeliveryStatusException.cs" />
     <Compile Include="Exceptions\InvalidTypeException.cs" />
     <Compile Include="Exceptions\VehicleNotFoundException.cs" />
     <Compile Include="Interfaces\IRoles.cs" />

@@ -20,17 +20,15 @@ namespace ConsoleApp1.Classes
         string _Model;
         int _Year;
         string _NumberPlate;
-        string _Status;
         string _Availability;
 
         public Vehicles() { }
-        public Vehicles(string Make, string Model, int Year, string NumberPlate, string Status, string Availability)
+        public Vehicles(string Make, string Model, int Year, string NumberPlate, string Availability)
         {
             _Make = Make;
             _Model = Model;
             _Year = Year;
             _NumberPlate = NumberPlate;
-            _Status = Status;
             _Availability = Availability;
         }
 
@@ -59,11 +57,6 @@ namespace ConsoleApp1.Classes
             get { return _NumberPlate; }
             set { _NumberPlate = value; }
         }
-        public string Status
-        {
-            get { return _Status; }
-            set { _Status = value; }
-        }
         public string Availability
         {
             get { return _Availability; }
@@ -82,6 +75,7 @@ namespace ConsoleApp1.Classes
 
         public virtual bool AddVehicle(Vehicles vehicle)
         {
+            Console.WriteLine("===== Adding Vehicles =====");
             bool NotUnique = false;
             foreach (Vehicles veci in VehicleList)
             {
@@ -102,7 +96,8 @@ namespace ConsoleApp1.Classes
         }
         public void RemoveVehicle(string NumberPlate)
         {
-            lock (_VehicleList) ; // Lock the list to prevent other threads from accessing it thus preventing concurrency errors. 
+            Console.WriteLine("===== Removing Vehicle =====");
+            lock (_VehicleList); // Lock the list to prevent other threads from accessing it thus preventing concurrency errors. 
             Vehicles VehicleToRemove = _VehicleList.Find(v => v.NumberPlate == NumberPlate);
             if (VehicleToRemove != null)
             {
@@ -121,14 +116,14 @@ namespace ConsoleApp1.Classes
         {
             if (VehicleList.Count == 0)
             {
-                Console.WriteLine("No vehicles available.");
+                Console.WriteLine("No available vehicles at the moment.");
             }
             else
             {
                 Console.WriteLine("===== List of Vehicles =====");
                 foreach (var vehicle in VehicleList)
                 {
-                    Console.WriteLine($"Make: {vehicle.Make}, Model: {vehicle.Model}, Year: {vehicle.Year}, Number Plate: {vehicle.NumberPlate}, Status: {vehicle.Status}, Availability: {vehicle.Availability}");
+                    DisplayDetails();
                 }
             }
         }
@@ -181,7 +176,7 @@ namespace ConsoleApp1.Classes
             if (foundVehicle != null)
             {
                 Console.WriteLine("Vehicle found:");
-                Console.WriteLine($"Make: {foundVehicle.Make}, Model: {foundVehicle.Model}, Year: {foundVehicle.Year}, Number Plate: {foundVehicle.NumberPlate}, Status: {foundVehicle.Status}, Availability: {foundVehicle.Availability}");
+                DisplayDetails();
             }
             else
             {
@@ -191,13 +186,7 @@ namespace ConsoleApp1.Classes
 
         public virtual void DisplayDetails()
         {
-            Console.WriteLine($"Make: {Make}, Model: {Model}, Year: {Year}, Number Plate: {NumberPlate}, Status: {Status}, Availability: {Availability}");
+            Console.WriteLine($"Make: {Make}, Model: {Model}, Year: {Year}, Number Plate: {NumberPlate}, Availability: {Availability}");
         }
-        public override string ToString()
-        {
-            return base.ToString();
-        }
-
-
     }
 }
