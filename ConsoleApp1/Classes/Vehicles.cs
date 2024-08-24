@@ -167,19 +167,14 @@ namespace ConsoleApp1.Classes
             }
 
         }
-        public void SearchVehicle()
+        public static void SearchVehicle(string NumberPlate)
         {
-            Console.WriteLine("===== Searching Vehicles =====");
-            Console.Write("Enter the number plate of the vehicle to search: ");
-            string numberPlate = Console.ReadLine();
+            Vehicles FoundVehicle = VehicleList.Find(v => v.NumberPlate.Equals(NumberPlate, StringComparison.OrdinalIgnoreCase));
 
-            // Find the vehicle with the matching number plate
-            Vehicles foundVehicle = VehicleList.Find(v => v.NumberPlate.Equals(numberPlate, StringComparison.OrdinalIgnoreCase));
-
-            if (foundVehicle != null)
+            if (FoundVehicle != null)
             {
                 Console.WriteLine("Vehicle found:");
-                DisplayDetails();
+                FoundVehicle.DisplayDetails();
             }
             else
             {
@@ -190,6 +185,16 @@ namespace ConsoleApp1.Classes
         public virtual void DisplayDetails()
         {
             Console.WriteLine($"Make: {Make}, Model: {Model}, Year: {Year}, Number Plate: {NumberPlate}, Availability: {Availability}");
+        }
+
+        public virtual void EditVehicle(string numberplate)
+        {
+            Vehicles foundVehicle = VehicleList.Find(v => v.NumberPlate.Equals(NumberPlate, StringComparison.OrdinalIgnoreCase));
+
+            if (foundVehicle != null)
+            {
+                SearchVehicle(numberplate);
+            }
         }
     }
 }

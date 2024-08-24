@@ -42,7 +42,7 @@ namespace ConsoleApp1.Classes
                 Console.Write("Enter vehicle availability(Available, Unavailable, Under Maintenance): ");
                 Availability = Console.ReadLine();
 
-                Vehicles vehicles = new Vehicles(Make, Model, Year, NumberPlate, Availability);
+                Vehicles vehicles = new Vehicles(Make, Model, Year, NumberPlate);
                 correct = truck.AddVehicle(vehicles);
             }
             

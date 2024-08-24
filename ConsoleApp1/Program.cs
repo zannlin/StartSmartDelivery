@@ -11,8 +11,7 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            OperationLogs logging = new OperationLogs();
-            logging.Start();
+
 
             //Console.WriteLine("ADMIN LOGIN");
             //Console.WriteLine("===========");
@@ -65,6 +64,11 @@ namespace ConsoleApp1
             Truck truck2 = new Truck("Scania", "R500", 2019, "XYZ5678", 30.0);
             Truck truck3 = new Truck("Mercedes-Benz", "Actros", 2021, "LMN9101", 28.75);
 
+            var driver1 = new Drivers("John", "Doe", 12345, "Code 10");
+            var driver2 = new Drivers("Jane", "Smith", 67890, "Code 8");
+            var driver3 = new Drivers("Michael", "Johnson", 11223, "Code 14");
+
+
             //This shouldnt be necessary anymore
             //List<DeliveryTask> list = DeliveryTask.DeliveryTaskList;
             //list.Add(defaultTask);
@@ -72,7 +76,7 @@ namespace ConsoleApp1
 
             Menu.StartApp();
             Console.ReadLine();
-            logging.Stop();
+            //logging.Stop();
             //}
 
         }

@@ -54,7 +54,7 @@ namespace ConsoleApp1.Classes
 
         private void HandleOperation(string operation)
         {
-            //placeholder part 2 lol
+           
             Console.WriteLine($"Operation Handled: {operation}");
         }
     }
