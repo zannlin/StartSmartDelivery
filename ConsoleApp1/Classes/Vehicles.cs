@@ -16,22 +16,23 @@ namespace ConsoleApp1.Classes
         static readonly string[] AllowedValues = { "Available", "Unavailable", "Under Maintenance" };
 
         private static List<Vehicles> _VehicleList = new List<Vehicles>();
+
         string _Make;
         string _Model;
         int _Year;
         string _NumberPlate;
-        string _Status;
         string _Availability;
 
         public Vehicles() { }
-        public Vehicles(string Make, string Model, int Year, string NumberPlate, string Status, string Availability)
+        public Vehicles(string Make, string Model, int Year, string NumberPlate)
         {
             _Make = Make;
             _Model = Model;
             _Year = Year;
             _NumberPlate = NumberPlate;
-            _Status = Status;
-            _Availability = Availability;
+            Availability = "Available";
+
+            VehicleList.Add(this);
         }
 
         public static List<Vehicles> VehicleList
@@ -59,11 +60,6 @@ namespace ConsoleApp1.Classes
             get { return _NumberPlate; }
             set { _NumberPlate = value; }
         }
-        public string Status
-        {
-            get { return _Status; }
-            set { _Status = value; }
-        }
         public string Availability
         {
             get { return _Availability; }
@@ -82,6 +78,7 @@ namespace ConsoleApp1.Classes
 
         public virtual bool AddVehicle(Vehicles vehicle)
         {
+            Console.WriteLine("===== Adding Vehicles =====");
             bool NotUnique = false;
             foreach (Vehicles veci in VehicleList)
             {
@@ -102,7 +99,8 @@ namespace ConsoleApp1.Classes
         }
         public void RemoveVehicle(string NumberPlate)
         {
-            lock (_VehicleList) ; // Lock the list to prevent other threads from accessing it thus preventing concurrency errors. 
+            Console.WriteLine("===== Removing Vehicle =====");
+            lock (_VehicleList); // Lock the list to prevent other threads from accessing it thus preventing concurrency errors. 
             Vehicles VehicleToRemove = _VehicleList.Find(v => v.NumberPlate == NumberPlate);
             if (VehicleToRemove != null)
             {
@@ -121,14 +119,14 @@ namespace ConsoleApp1.Classes
         {
             if (VehicleList.Count == 0)
             {
-                Console.WriteLine("No vehicles available.");
+                Console.WriteLine("No available vehicles at the moment.");
             }
             else
             {
                 Console.WriteLine("===== List of Vehicles =====");
-                foreach (var vehicle in VehicleList)
+                foreach (var Vehicle in VehicleList)
                 {
-                    Console.WriteLine($"Make: {vehicle.Make}, Model: {vehicle.Model}, Year: {vehicle.Year}, Number Plate: {vehicle.NumberPlate}, Status: {vehicle.Status}, Availability: {vehicle.Availability}");
+                    Vehicle.DisplayDetails();
                 }
             }
         }
@@ -143,9 +141,9 @@ namespace ConsoleApp1.Classes
             else
             {
                 Console.WriteLine("===== List of Available Vehicles =====");
-                foreach (var vehicle in availableVehicles)
+                foreach (var Vehicle in VehicleList)
                 {
-                    DisplayDetails();
+                    Vehicle.DisplayDetails();
                 }
             }
         }
@@ -162,26 +160,21 @@ namespace ConsoleApp1.Classes
             else
             {
                 Console.WriteLine("===== List of Vehicles under Maintanence =====");
-                foreach (var vehicle in availableVehicles)
+                foreach (var Vehicle in VehicleList)
                 {
-                    DisplayDetails();
+                    Vehicle.DisplayDetails();
                 }
             }
 
         }
-        public void SearchVehicle()
+        public static void SearchVehicle(string NumberPlate)
         {
-            Console.WriteLine("===== Searching Vehicles =====");
-            Console.Write("Enter the number plate of the vehicle to search: ");
-            string numberPlate = Console.ReadLine();
+            Vehicles FoundVehicle = VehicleList.Find(v => v.NumberPlate.Equals(NumberPlate, StringComparison.OrdinalIgnoreCase));
 
-            // Find the vehicle with the matching number plate
-            Vehicles foundVehicle = VehicleList.Find(v => v.NumberPlate.Equals(numberPlate, StringComparison.OrdinalIgnoreCase));
-
-            if (foundVehicle != null)
+            if (FoundVehicle != null)
             {
                 Console.WriteLine("Vehicle found:");
-                DisplayDetails();
+                FoundVehicle.DisplayDetails();
             }
             else
             {
@@ -191,13 +184,17 @@ namespace ConsoleApp1.Classes
 
         public virtual void DisplayDetails()
         {
-            Console.WriteLine($"Make: {Make}, Model: {Model}, Year: {Year}, Number Plate: {NumberPlate}, Status: {Status}, Availability: {Availability}");
+            Console.WriteLine($"Make: {Make}, Model: {Model}, Year: {Year}, Number Plate: {NumberPlate}, Availability: {Availability}");
         }
-        public override string ToString()
+
+        public virtual void EditVehicle(string numberplate)
         {
-            return base.ToString();
+            Vehicles foundVehicle = VehicleList.Find(v => v.NumberPlate.Equals(NumberPlate, StringComparison.OrdinalIgnoreCase));
+
+            if (foundVehicle != null)
+            {
+                SearchVehicle(numberplate);
+            }
         }
-
-
     }
 }

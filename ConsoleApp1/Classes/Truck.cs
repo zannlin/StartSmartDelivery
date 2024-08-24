@@ -11,7 +11,7 @@ namespace ConsoleApp1.Classes
         private double _LoadCapacity;
 
         public Truck() { }
-        public Truck(string Make, string Model, int Year, string NumberPlate, string Status, string Availability, double LoadCapacity) : base(Make, Model, Year, NumberPlate, Status, Availability)
+        public Truck(string Make, string Model, int Year, string NumberPlate, double LoadCapacity) : base(Make, Model, Year, NumberPlate)
         {
             _LoadCapacity = LoadCapacity;
         }
@@ -20,6 +20,32 @@ namespace ConsoleApp1.Classes
         {
             get { return _LoadCapacity; }
             set { _LoadCapacity = value; }
+        }
+
+        public void GetVehicleInfo()
+        {
+            bool correct = false;
+            while (!correct)
+            {
+                Truck truck = new Truck();
+                
+
+                Console.WriteLine("==== Enter Car Details ====\n");
+                Console.Write("Enter vehicle make: ");
+                Make = Console.ReadLine();
+                Console.Write("Enter vehicle model: ");
+                Model = Console.ReadLine();
+                Console.Write("Enter vehicle year: ");
+                Year = int.Parse(Console.ReadLine());
+                Console.Write("Enter vehicle numberplate: ");
+                NumberPlate = Console.ReadLine();
+                Console.Write("Enter vehicle availability(Available, Unavailable, Under Maintenance): ");
+                Availability = Console.ReadLine();
+
+                Vehicles vehicles = new Vehicles(Make, Model, Year, NumberPlate);
+                correct = truck.AddVehicle(vehicles);
+            }
+            
         }
 
         public override bool AddVehicle(Vehicles vehicle) //returns a bool to determine if the numberplate is unique or not
@@ -46,7 +72,7 @@ namespace ConsoleApp1.Classes
                     }
                 }
 
-                Truck truck = new Truck(vehicle.Make, vehicle.Model, vehicle.Year, vehicle.NumberPlate, vehicle.Status, vehicle.Availability, LoadCap);
+                Truck truck = new Truck(vehicle.Make, vehicle.Model, vehicle.Year, vehicle.NumberPlate, LoadCap);
                 VehicleList.Add(truck);
                 Console.WriteLine($"\n{vehicle.Make} {vehicle.Model} with number plate {vehicle.NumberPlate} added successfully!");
                 return true;

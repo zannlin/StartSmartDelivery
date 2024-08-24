@@ -17,7 +17,9 @@ namespace ConsoleApp1.Classes
         public DefaultDeliveryTask(string orderNumber, string date, string day, string time, string name, string telephone, string cellphone, string email, string address, string product, string amount, string paymentMethod, string notes, string customerCode) : base(orderNumber, date, day, time, name, telephone, cellphone, email,address, product, amount, paymentMethod, notes)
         {
             CustomerCode = customerCode;
+            DeliveryTaskList.Add(this);
             this.OrderCreated += OnCreateOrder;
+            PublishOrderCreated(this);
         }
 
         public override void DisplayDetails()
@@ -62,7 +64,7 @@ namespace ConsoleApp1.Classes
             string newCustomerCode = Console.ReadLine();
 
             DefaultDeliveryTask deliveryTask = new DefaultDeliveryTask(newOrderNumber, newDate, newDay, newTime, newName, newTelephone, newCellphone, newEmail, newAddress, newProduct, newAmount, newPaymentMethod, newNotes, newCustomerCode);
-            DeliveryList.Add(deliveryTask);
+            DeliveryTaskList.Add(deliveryTask);
             // Call the publisher
             PublishOrderCreated(deliveryTask);
         }
@@ -77,7 +79,10 @@ namespace ConsoleApp1.Classes
         public void OnCreateOrder(DefaultDeliveryTask deliveryTask)
         {
             // Subscriber
-            Console.WriteLine($"An order was created with the following details: \n" + deliveryTask); 
+            Console.WriteLine($"An order was created with the following details: \n" + deliveryTask);
+            Delivery newDelivery = new Delivery(deliveryTask);
+
+            Delivery.DeliveryList.Add(newDelivery);
         }
 
     }

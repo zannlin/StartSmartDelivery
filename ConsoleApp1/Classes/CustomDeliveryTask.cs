@@ -28,7 +28,9 @@ namespace ConsoleApp1.Classes
    ) : base(orderNumber, date, day, time, name, telephone, cellphone, email,address, product, amount, paymentMethod, notes)
         {
             CustomFields = new Dictionary<string, string>();
+            DeliveryTaskList.Add(this);
             this.OrderCreated += OnCreateOrder;
+            PublishOrderCreated(this);
         }
 
         public void AddCustomField(string fieldName, string fieldValue)
@@ -92,7 +94,7 @@ namespace ConsoleApp1.Classes
             }
 
             CustomDeliveryTask deliveryTask = new CustomDeliveryTask(newOrderNumber, newDate, newDay, newTime, newName, newTelephone, newCellphone, newEmail, newAddress, newProduct, newAmount, newPaymentMethod, newNotes );
-            DeliveryList.Add(deliveryTask);
+            DeliveryTaskList.Add(deliveryTask);
 
             // Call the publisher
             PublishOrderCreated(deliveryTask);
@@ -109,6 +111,9 @@ namespace ConsoleApp1.Classes
         {
             // Subscriber
             Console.WriteLine($"An order was created with the following details: \n" + deliveryTask);
+            Delivery newDelivery = new Delivery(deliveryTask);
+
+            Delivery.DeliveryList.Add(newDelivery);
         }
     }
 }
