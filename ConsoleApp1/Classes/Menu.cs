@@ -6,7 +6,7 @@ namespace ConsoleApp1.Classes
 {
     internal static class Menu
     {
-
+        private static ActivityMonitor activityMonitor;
         enum MainMenu
         {
             Delivery_Management,
@@ -46,14 +46,20 @@ namespace ConsoleApp1.Classes
 
         public static void StartApp()
         {
+            activityMonitor = new ActivityMonitor();
+
             bool FirstRun = true;
             bool Exit = false;
+
+            activityMonitor.StartInactivityMonitor();
+
             do
             {
                 if (!FirstRun)
                 {
                     Console.WriteLine("Press any key to continue");
                     Console.ReadLine();
+                    activityMonitor.ResetTimer();
                 }
 
                 Console.Clear();
@@ -66,6 +72,7 @@ namespace ConsoleApp1.Classes
                 try
                 {
                     Option_Main = IntTryParse(Prompt, InputRange => InputRange >= 1 && InputRange <= 6, "Value entered must between 1 and 6");
+                    activityMonitor.ResetTimer();
                 }
                 catch (Exception ex)
                 {
@@ -89,7 +96,7 @@ namespace ConsoleApp1.Classes
                         Console.Clear();
                         Console.WriteLine("Exiting app. Enjoy your day!");
                         Exit = true;
-
+                        activityMonitor.StopMonitor();
                         break;
                 }
 
@@ -119,6 +126,7 @@ namespace ConsoleApp1.Classes
                 try
                 {
                     Option_Delivery = IntTryParse(Prompt, InputRange => InputRange >= 1 && InputRange <= 6, "Value entered must between 1 and 6");
+                    activityMonitor.ResetTimer();
                 }
                 catch (Exception ex)
                 {
@@ -133,7 +141,7 @@ namespace ConsoleApp1.Classes
                         Console.Clear();
                         Console.WriteLine("===== Add Delivery =====");
                         Prompt = "Delivery Preset: \n 1. Default \n 2. Custom";
-
+                        activityMonitor.ResetTimer();
                         try
                         {
                             Option_Delivery_Sub = IntTryParse(Prompt, InputRange => InputRange == 1 || InputRange == 2, "Value entered must be 1 or 2");
@@ -161,6 +169,7 @@ namespace ConsoleApp1.Classes
                         break;
                     case 2: //Manage_Vehicle_Assignment
                         Console.Clear();
+                        activityMonitor.ResetTimer();
                         Console.WriteLine("===== Manage Vehicle Assignment =====");
                         Prompt = "Vehicle Assignment: \n 1. Assign Vehicle to Order \n 2. Unassign Vehicle from Order";
 
@@ -207,7 +216,7 @@ namespace ConsoleApp1.Classes
                             string NumberPlate = Console.ReadLine();
 
                         }
-
+                        activityMonitor.ResetTimer();
                         Console.ReadLine();
                         break;
                     case 3: //Manage_Driver_Assignment
@@ -218,6 +227,7 @@ namespace ConsoleApp1.Classes
                         try
                         {
                             Option_Delivery_Sub = IntTryParse(Prompt, InputRange => InputRange == 1 || InputRange == 2, "Value entered must be 1 or 2");
+                            activityMonitor.ResetTimer();
                         }
                         catch (Exception ex)
                         {
@@ -276,6 +286,7 @@ namespace ConsoleApp1.Classes
                         Console.Clear();
                         Delivery.ViewAllDeliveries();
                         Console.ReadLine();
+                        activityMonitor.ResetTimer();
                         break;
                     case 5://Search_Deliveries
                         Console.Clear();
@@ -284,6 +295,7 @@ namespace ConsoleApp1.Classes
                         Delivery Result = Delivery.SearchDeliveries(OrderNumber);
                         Result.GetDetails();
                         Console.ReadLine();
+                        activityMonitor.ResetTimer();
                         break;
                     case 6://back
                         back = true;
@@ -314,6 +326,7 @@ namespace ConsoleApp1.Classes
                 try
                 {
                     Option_Vehicle = IntTryParse(Prompt, InputRange => InputRange >= 1 && InputRange <= 8, "Value entered must between 1 and 8");
+                    activityMonitor.ResetTimer();
                 }
                 catch (Exception ex)
                 {
@@ -335,27 +348,32 @@ namespace ConsoleApp1.Classes
                         Console.Write("Enter a vehicle license plate: ");
                         VehicleManager.RemoveVehicle(Console.ReadLine());
                         Console.ReadLine();
+                        activityMonitor.ResetTimer();
                         break;
                     case 3://edit vehicle
                         Console.Clear();
                         Console.WriteLine("Enter Numberplate: ");
                         truck.EditVehicle(Console.ReadLine());
+                        activityMonitor.ResetTimer();
                         Console.ReadLine();
                         break;
                     case 4://ViewAllVehicles
                         Console.Clear();
                         truck.ViewAllVehicles();
                         Console.ReadLine();
+                        activityMonitor.ResetTimer();
                         break;
                     case 5://View_Available_Vehicles
                         Console.Clear();
                         VehicleManager.ViewAvailable();
                         Console.ReadLine();
+                        activityMonitor.ResetTimer();
                         break;
                     case 6://View_Vehicles_under_maintenance
                         Console.Clear();
                         VehicleManager.ViewMaintanence();
                         Console.ReadLine();
+                        activityMonitor.ResetTimer();
                         break;
                     case 7://Search_Vehicle
                         Console.Clear();
@@ -364,6 +382,7 @@ namespace ConsoleApp1.Classes
                         string NumberPlate = Console.ReadLine();
                         Vehicles.SearchVehicle(NumberPlate);
                         Console.ReadLine();
+                        activityMonitor.ResetTimer();
                         break;
                     case 8://back
                         back = true;
@@ -391,6 +410,7 @@ namespace ConsoleApp1.Classes
                 try
                 {
                     Option_Driver = IntTryParse(Prompt, InputRange => InputRange >= 1 && InputRange <= 8, "Value entered must between 1 and 8");
+                    activityMonitor.ResetTimer();
                 }
                 catch (Exception ex)
                 {
@@ -406,17 +426,20 @@ namespace ConsoleApp1.Classes
                         Drivers newDriver = Drivers.AddDrivers();
                         Console.WriteLine("Driver added succesfully");
                         Console.ReadLine();
+                        activityMonitor.ResetTimer();
                         break;
                     case 2://Edit_Driver
                         Console.Clear();
                         Console.WriteLine("===== Editing Drivers =====");
                         Drivers.EditDriver();
                         Console.ReadLine();
+                        activityMonitor.ResetTimer();
                         break;
                     case 3://View all Drivers
                         Console.Clear();
                         Drivers.ViewAllDrivers();
                         Console.ReadLine();
+                        activityMonitor.ResetTimer();
                         break;
                     case 4://View_Driver_Availability
                         Console.Clear();
@@ -424,6 +447,7 @@ namespace ConsoleApp1.Classes
                         Console.WriteLine("Available Drivers:");
                         Drivers.ViewDriverAvailability();
                         Console.ReadLine();
+                        activityMonitor.ResetTimer();
                         break;
                     case 5://Search_Driver
                         Console.Clear();
@@ -434,6 +458,7 @@ namespace ConsoleApp1.Classes
                         try
                         {
                             SearchEmployeeNo = Menu.IntTryParse(Prompt);
+                            activityMonitor.ResetTimer();
                         }
                         catch (Exception ex)
                         {

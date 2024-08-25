@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ConsoleApp1
@@ -69,7 +70,21 @@ namespace ConsoleApp1
             var driver2 = new Drivers("Jane", "Smith", 67890, "Code 8");
             var driver3 = new Drivers("Michael", "Johnson", 11223, "Code 14");
 
+            ActivityMonitor activityMonitor = new ActivityMonitor(10); // Timeout after 10 minutes of inactivity
+            activityMonitor.OnTimeout += () =>
+            {
+                Console.WriteLine();
+                Console.WriteLine("Inactivity timeout reached.");
+                Console.WriteLine("The application will close in 10 seconds...");
+                Thread.Sleep(10000); // Wait for 10 seconds
+                Environment.Exit(0); // Exit the application
+            };
+            activityMonitor.StartInactivityMonitor();
+
             Menu.StartApp();
+            Console.ReadLine();
+
+            activityMonitor.ResetTimer();
             Console.ReadLine();
             //}
 
