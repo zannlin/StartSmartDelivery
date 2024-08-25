@@ -310,7 +310,6 @@ namespace ConsoleApp1.Classes
 
                     case 1://Add_Vehicle
                         Console.Clear();
-
                         truck.GetVehicleInfo();
                         Console.ReadLine();
                         break;
@@ -322,13 +321,13 @@ namespace ConsoleApp1.Classes
                         break;
                     case 3://edit vehicle
                         Console.Clear();
-                        Console.WriteLine("Enter shit: ");
-                        VehicleManager.EditVehicle(Console.ReadLine());
+                        Console.WriteLine("Enter Numberplate: ");
+                        truck.EditVehicle(Console.ReadLine());
                         Console.ReadLine();
                         break;
                     case 4://ViewAllVehicles
                         Console.Clear();
-                        VehicleManager.ViewAllVehicles();
+                        truck.ViewAllVehicles();
                         Console.ReadLine();
                         break;
                     case 5://View_Available_Vehicles
@@ -471,7 +470,28 @@ namespace ConsoleApp1.Classes
             }
         }
 
-        //TODO - DoubleTryParse. BoolTryParse
+        //TODO -  BoolTryParse
+        public static double DoubleTryParse(string PromptMessage)
+        {
+            bool Validated = false;
+
+            while (Validated == false)
+            {
+                Console.WriteLine(PromptMessage);
+                Validated = double.TryParse(Console.ReadLine(), out double output);
+
+                if (Validated)
+                {
+                    return output;
+                }
+                else
+                {
+                    throw new InvalidTypeException("The value entered was not an integer");
+                }
+            }
+
+            return 0; //Should never get here
+        }
 
         private static void ViewLogs(OperationLogs logging)
         {
