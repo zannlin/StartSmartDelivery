@@ -75,6 +75,10 @@ namespace ConsoleApp1.Classes
                 }
             }
         }
+        public virtual void GetVehicleInfo()
+        {
+            Console.WriteLine("Creating a vehicle...");
+        }
 
         public virtual bool AddVehicle(Vehicles vehicle)
         {
@@ -189,21 +193,21 @@ namespace ConsoleApp1.Classes
 
         public virtual void EditVehicle(string numberplate)
         {
-            List<string> requiredOption = new List<string>();
-            requiredOption.Add("Make");
-            requiredOption.Add("Model"); 
-            requiredOption.Add("Year");
-            requiredOption.Add("NumberPlate");
-            requiredOption.Add("Availability");
+            List<string> requiredOption = new List<string>
+            {
+                "Make",
+                "Model",
+                "Year",
+                "NumberPlate",
+                "Availability"
+            };
 
             Vehicles foundVehicle = VehicleList.Find(v => v.NumberPlate.Equals(NumberPlate, StringComparison.OrdinalIgnoreCase));
 
             if (foundVehicle != null)
             {
-                SearchVehicle(numberplate);
-                Console.Write("Enter the value you would like to change: ");
-                string change = Console.ReadLine().ToLower();
-
+                foundVehicle.DisplayDetails();
+                
                 int option = 0;
                 bool IsCorrect = false;
                 while (IsCorrect)

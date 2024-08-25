@@ -22,27 +22,26 @@ namespace ConsoleApp1.Classes
             set { _LoadCapacity = value; }
         }
 
-        public void GetVehicleInfo()
+        public override void GetVehicleInfo()
         {
             bool correct = false;
             while (!correct)
             {
                 Truck truck = new Truck();
-                
+                Vehicles vehicles = new Vehicles();
 
                 Console.WriteLine("==== Enter Car Details ====\n");
                 Console.Write("Enter vehicle make: ");
-                Make = Console.ReadLine();
+                vehicles.Make = Console.ReadLine();
                 Console.Write("Enter vehicle model: ");
-                Model = Console.ReadLine();
+                vehicles.Model = Console.ReadLine();
                 Console.Write("Enter vehicle year: ");
-                Year = int.Parse(Console.ReadLine());
+                vehicles.Year = int.Parse(Console.ReadLine());
                 Console.Write("Enter vehicle numberplate: ");
-                NumberPlate = Console.ReadLine();
+                vehicles.NumberPlate = Console.ReadLine();
                 Console.Write("Enter vehicle availability(Available, Unavailable, Under Maintenance): ");
-                Availability = Console.ReadLine();
-
-                Vehicles vehicles = new Vehicles(Make, Model, Year, NumberPlate);
+                vehicles.Availability = Console.ReadLine();
+                
                 correct = truck.AddVehicle(vehicles);
             }
             
@@ -58,7 +57,7 @@ namespace ConsoleApp1.Classes
                     NotUnique = true;
                 }
             }
-            if (!NotUnique)
+            if (NotUnique == false)
             {
                 bool validated = false;
                 double LoadCap = 0;
