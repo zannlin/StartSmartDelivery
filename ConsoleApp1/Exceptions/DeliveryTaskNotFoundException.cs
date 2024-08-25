@@ -10,8 +10,8 @@ namespace ConsoleApp1.Exceptions
     {
         public DeliveryTaskNotFoundException() { }
 
-        public DeliveryTaskNotFoundException(string message) { Console.WriteLine(message); }
+        public DeliveryTaskNotFoundException(string message) { }
 
-        public DeliveryTaskNotFoundException(string message, Exception inner) : base(message, inner) { Console.WriteLine(message); }
+        public DeliveryTaskNotFoundException(string message, Exception inner) : base(message, inner) { }
     }
 }

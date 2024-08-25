@@ -10,8 +10,8 @@ namespace ConsoleApp1.Exceptions
     {
         public InvalidAvailabilityException() { }
 
-        public InvalidAvailabilityException(string message) { Console.WriteLine(message); }
+        public InvalidAvailabilityException(string message) { }
 
-        public InvalidAvailabilityException(string message, Exception inner) : base(message, inner) { Console.WriteLine(message); }
+        public InvalidAvailabilityException(string message, Exception inner) : base(message, inner) { }
     }
 }

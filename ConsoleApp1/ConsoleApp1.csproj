@@ -62,6 +62,7 @@
     <Compile Include="Classes\Vehicles.cs" />
     <Compile Include="Exceptions\DeliveryTaskNotFoundException.cs" />
     <Compile Include="Exceptions\DriverNotFoundException.cs" />
+    <Compile Include="Exceptions\FailedValidationException.cs" />
     <Compile Include="Exceptions\InvalidAvailabilityException.cs" />
     <Compile Include="Exceptions\InvalidDeliveryStatusException.cs" />
     <Compile Include="Exceptions\InvalidTypeException.cs" />

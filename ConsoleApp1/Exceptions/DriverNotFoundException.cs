@@ -10,8 +10,8 @@ namespace ConsoleApp1.Exceptions
     {
         public DriverNotFoundException() { }
 
-        public DriverNotFoundException(string message) { Console.WriteLine(message); }
+        public DriverNotFoundException(string message) { }
 
-        public DriverNotFoundException(string message, Exception inner) : base(message, inner) { Console.WriteLine(message); }
+        public DriverNotFoundException(string message, Exception inner) : base(message, inner) { }
     }
 }

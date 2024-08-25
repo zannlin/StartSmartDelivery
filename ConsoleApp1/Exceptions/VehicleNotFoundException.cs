@@ -10,8 +10,8 @@ namespace ConsoleApp1.Exceptions
     {
         public VehicleNotFoundException() { }
 
-        public VehicleNotFoundException(string message) { Console.WriteLine(message); }
+        public VehicleNotFoundException(string message) { }
 
-        public VehicleNotFoundException(string message, Exception inner) : base(message, inner) { Console.WriteLine(message); }
+        public VehicleNotFoundException(string message, Exception inner) : base(message, inner) { }
     }
 }

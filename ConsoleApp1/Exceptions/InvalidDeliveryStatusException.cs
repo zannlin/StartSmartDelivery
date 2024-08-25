@@ -10,8 +10,8 @@ namespace ConsoleApp1.Exceptions
     {
         public InvalidDeliveryStatusException() { }
 
-        public InvalidDeliveryStatusException(string message) { Console.WriteLine(message); }
+        public InvalidDeliveryStatusException(string message) { }
 
-        public InvalidDeliveryStatusException(string message, Exception inner) : base(message, inner) { Console.WriteLine(message); }
+        public InvalidDeliveryStatusException(string message, Exception inner) : base(message, inner) { }
     }
 }

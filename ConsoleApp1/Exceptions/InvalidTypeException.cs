@@ -8,15 +8,12 @@ namespace ConsoleApp1.Exceptions
 {
     internal class InvalidTypeException : Exception
     {
-        //TODO - Choose and implement error handling 
-
-        //Edit Default Constructor?
         public InvalidTypeException() { }
-        //Edit Constructor with one paramater (message)
+
         public InvalidTypeException(string message) : base(message) {
-            Console.WriteLine(message);
+            
         }
-        //Edit Constructor with two paramaters (message, inner)
-        public InvalidTypeException(string message, Exception inner) : base(message, inner) { Console.WriteLine(message); }
+
+        public InvalidTypeException(string message, Exception inner) : base(message, inner) { }
     }
 }
