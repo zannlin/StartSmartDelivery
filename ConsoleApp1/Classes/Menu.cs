@@ -507,5 +507,27 @@ namespace ConsoleApp1.Classes
                 throw new FailedValidationException($"The input value failed the extra validation criteria of IntTryParse. Reason being: {ValidationErrorMessage}");
             }
         }
+
+        public static double DoubleTryParse(string PromptMessage)
+        {
+            bool Validated = false;
+
+            while (Validated == false)
+            {
+                Console.WriteLine(PromptMessage);
+                Validated = double.TryParse(Console.ReadLine(), out double output);
+
+                if (Validated)
+                {
+                    return output;
+                }
+                else
+                {
+                    throw new InvalidTypeException("The value entered was not an integer");
+                }
+            }
+
+            return 0; //Should never get here
+        }
     }
 }
