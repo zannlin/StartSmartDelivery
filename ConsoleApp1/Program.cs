@@ -9,10 +9,11 @@ namespace ConsoleApp1
 {
     internal class Program
     {
+       
+
         static void Main(string[] args)
         {
-
-
+            
             //Console.WriteLine("ADMIN LOGIN");
             //Console.WriteLine("===========");
 
@@ -67,12 +68,6 @@ namespace ConsoleApp1
             var driver1 = new Drivers("John", "Doe", 12345, "Code 10");
             var driver2 = new Drivers("Jane", "Smith", 67890, "Code 8");
             var driver3 = new Drivers("Michael", "Johnson", 11223, "Code 14");
-
-
-            //This shouldnt be necessary anymore
-            //List<DeliveryTask> list = DeliveryTask.DeliveryTaskList;
-            //list.Add(defaultTask);
-            //list.Add(customTask);
 
             Menu.StartApp();
             Console.ReadLine();

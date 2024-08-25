@@ -46,51 +46,121 @@ namespace ConsoleApp1.Classes
             get { return _DeliveryStatus; }
             set
             {
-                if (AllowedValues.Contains(value))
+                try
                 {
-                    _DeliveryStatus = value;
+                    if (AllowedValues.Contains(value))
+                    {
+                        _DeliveryStatus = value;
+                    }
+                    else
+                    {
+                        throw new InvalidDeliveryStatusException("Invalid Delivery Status Entered. Enter 'Scheduled', 'In Progress', 'Cancelled' or 'Complete'");
+                    }
                 }
-                else
+                catch (InvalidDeliveryStatusException ex)
                 {
-                    throw new InvalidDeliveryStatusException("Invalid Delivery Status Entered. Enter 'Scheduled', 'In Progress', 'Cancelled' or 'Complete'");
+                    Console.WriteLine($"Error: {ex.Message}");
                 }
             }
         }
+
 
         public static void AssignVehicleToOrder(string OrderNumber, string Numberplate)
         {
             Delivery DeliveryToAssign = DeliveryList.Find(delivery => delivery.AssignedTask.OrderNumber.Equals(OrderNumber, StringComparison.OrdinalIgnoreCase));
 
-            if (DeliveryToAssign != null)
+            try
             {
-
-                Vehicles VehicleToAssign = Vehicles.VehicleList.Find(vehicle => vehicle.NumberPlate.Equals(Numberplate, StringComparison.OrdinalIgnoreCase));
-                VehicleToAssign.Availability = "Unavailable";
-                if (VehicleToAssign != null)
+                if (DeliveryToAssign != null)
                 {
 
-                    DeliveryToAssign.AssignedVehicle = VehicleToAssign;
-                    Console.WriteLine($"Vehicle {VehicleToAssign.Make} {VehicleToAssign.Model} with NumberPlate {Numberplate} assigned to Order {OrderNumber}.");
+                    Vehicles VehicleToAssign = Vehicles.VehicleList.Find(vehicle => vehicle.NumberPlate.Equals(Numberplate, StringComparison.OrdinalIgnoreCase));
+                    VehicleToAssign.Availability = "Unavailable";
+                    if (VehicleToAssign != null)
+                    {
+
+                        DeliveryToAssign.AssignedVehicle = VehicleToAssign;
+                        Console.WriteLine($"Vehicle {VehicleToAssign.Make} {VehicleToAssign.Model} with NumberPlate {Numberplate} assigned to Order {OrderNumber}.");
+                    }
+                    else
+                    {
+                        throw new VehicleNotFoundException("Vehicle not found in list");
+                    }
                 }
                 else
                 {
-                    throw new VehicleNotFoundException("Vehicle not found in list");
+                    throw new DeliveryTaskNotFoundException("Order not found");
                 }
             }
-            else
+            catch (VehicleNotFoundException ex)
             {
-                throw new DeliveryTaskNotFoundException("Order not found");
+                Console.WriteLine($"Error: {ex.Message}");
             }
-
+            catch (DeliveryTaskNotFoundException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
         }
+
+        public static void UnassignVehicleFromOrder(string OrderNumber, string Numberplate)
+        {
+            Delivery DeliveryToUnassign = DeliveryList.Find(delivery => delivery.AssignedTask.OrderNumber.Equals(OrderNumber, StringComparison.OrdinalIgnoreCase));
+
+            try
+            {
+                if (DeliveryToUnassign != null)
+                {
+                    Vehicles VehicleToUnassign = Vehicles.VehicleList.Find(vehicle => vehicle.NumberPlate.Equals(Numberplate, StringComparison.OrdinalIgnoreCase));
+
+                    if (VehicleToUnassign != null)
+                    {
+                        if (DeliveryToUnassign.AssignedVehicle == VehicleToUnassign)
+                        {
+                            DeliveryToUnassign.AssignedVehicle = null;
+                            VehicleToUnassign.Availability = "Available";
+                            Console.WriteLine($"Vehicle {VehicleToUnassign.Make} {VehicleToUnassign.Model} with NumberPlate {Numberplate} has been unassigned from Order {OrderNumber}.");
+                        }
+                        else
+                        {
+                            throw new VehicleNotAssignedException("Vehicle is not assigned to this order");
+                        }
+                    }
+                    else
+                    {
+                        throw new VehicleNotFoundException("Vehicle not found in list");
+                    }
+                }
+                else
+                {
+                    throw new DeliveryTaskNotFoundException("Order not found");
+                }
+            }
+            catch (VehicleNotAssignedException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            catch (VehicleNotFoundException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            catch (DeliveryTaskNotFoundException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+        }
+
         public static void AssignDriverToOrder(string OrderNumber, int EmployeeNo)
         {
             Delivery DeliveryToAssign = DeliveryList.Find(delivery => delivery.AssignedTask.OrderNumber.Equals(OrderNumber, StringComparison.OrdinalIgnoreCase));
 
+            try
+            {
+
+   
             if (DeliveryToAssign != null)
             {
 
-                 Drivers DriverToAssign = Drivers.DriverList.Find(driver => driver.EmployeeNo == EmployeeNo);
+                Drivers DriverToAssign = Drivers.DriverList.Find(driver => driver.EmployeeNo == EmployeeNo);
                 DriverToAssign.Availability = false;
 
                 if (DriverToAssign != null)
@@ -107,6 +177,62 @@ namespace ConsoleApp1.Classes
             else
             {
                 throw new DeliveryTaskNotFoundException("Order not found");
+            }
+            }
+            catch (DriverNotFoundException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            catch (DeliveryTaskNotFoundException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+        }
+
+        public static void UnassignDriverFromOrder(string OrderNumber, int EmployeeNo)
+        {
+            Delivery DeliveryToUnassign = DeliveryList.Find(delivery => delivery.AssignedTask.OrderNumber.Equals(OrderNumber, StringComparison.OrdinalIgnoreCase));
+
+            try
+            {
+                if (DeliveryToUnassign != null)
+                {
+                    Drivers DriverToUnassign = Drivers.DriverList.Find(driver => driver.EmployeeNo == EmployeeNo);
+
+                    if (DriverToUnassign != null)
+                    {
+                        if (DeliveryToUnassign.AssignedDriver == DriverToUnassign)
+                        {
+                            DeliveryToUnassign.AssignedDriver = null;
+                            DriverToUnassign.Availability = true;
+                            Console.WriteLine($"Driver {DriverToUnassign.Name} {DriverToUnassign.Surname} with EmployeeNo {EmployeeNo} has been unassigned from Order {OrderNumber}.");
+                        }
+                        else
+                        {
+                            throw new DriverNotAssignedException("Driver is not assigned to this order");
+                        }
+                    }
+                    else
+                    {
+                        throw new DriverNotFoundException("Driver not found in list");
+                    }
+                }
+                else
+                {
+                    throw new DeliveryTaskNotFoundException("Order not found");
+                }
+            }
+            catch (DriverNotAssignedException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            catch (DriverNotFoundException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            catch (DeliveryTaskNotFoundException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
             }
         }
 
@@ -174,14 +300,23 @@ namespace ConsoleApp1.Classes
         public static Delivery SearchDeliveries(string OrderNumber)
         {
             Delivery foundDelivery = DeliveryList.Find(delivery => delivery.AssignedTask.OrderNumber.Equals(OrderNumber, StringComparison.OrdinalIgnoreCase));
-            if (foundDelivery != null)
+            try
             {
-                return foundDelivery;
+                if (foundDelivery != null)
+                {
+                    return foundDelivery;
+                }
+                else
+                {
+                    throw new DeliveryTaskNotFoundException("Order not found");
+                }
             }
-            else
+            catch (DeliveryTaskNotFoundException ex)
             {
-                throw new DeliveryTaskNotFoundException("Order not found");
+                Console.WriteLine($"Error: {ex.Message}");
             }
+
+            return null;
         }
 
         public Delivery() { }

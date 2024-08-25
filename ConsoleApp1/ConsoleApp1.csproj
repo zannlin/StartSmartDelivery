@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\ActivityMonitor.cs" />
     <Compile Include="Classes\Admin.cs" />
     <Compile Include="Classes\Backup.cs" />
     <Compile Include="Classes\CustomDeliveryTask.cs" />
@@ -56,16 +57,17 @@
     <Compile Include="Classes\DeliveryTask.cs" />
     <Compile Include="Classes\Drivers.cs" />
     <Compile Include="Classes\Menu.cs" />
-    <Compile Include="Classes\OperationLogs.cs" />
     <Compile Include="Classes\Roles.cs" />
     <Compile Include="Classes\Truck.cs" />
     <Compile Include="Classes\Vehicles.cs" />
     <Compile Include="Exceptions\DeliveryTaskNotFoundException.cs" />
+    <Compile Include="Exceptions\DriverNotAssignedException.cs" />
     <Compile Include="Exceptions\DriverNotFoundException.cs" />
     <Compile Include="Exceptions\FailedValidationException.cs" />
     <Compile Include="Exceptions\InvalidAvailabilityException.cs" />
     <Compile Include="Exceptions\InvalidDeliveryStatusException.cs" />
     <Compile Include="Exceptions\InvalidTypeException.cs" />
+    <Compile Include="Exceptions\VehicleNotAssignException.cs" />
     <Compile Include="Exceptions\VehicleNotFoundException.cs" />
     <Compile Include="Interfaces\IRoles.cs" />
     <Compile Include="Interfaces\IVehicles.cs" />

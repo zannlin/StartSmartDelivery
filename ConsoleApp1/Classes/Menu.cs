@@ -6,12 +6,12 @@ namespace ConsoleApp1.Classes
 {
     internal static class Menu
     {
+
         enum MainMenu
         {
             Delivery_Management,
             Vehicle_Management,
             Driver_Management,
-            View_Logs,
             Exit
         }
         enum DeliveryManagement
@@ -46,9 +46,6 @@ namespace ConsoleApp1.Classes
 
         public static void StartApp()
         {
-            OperationLogs logging = new OperationLogs();
-            logging.Start();
-
             bool FirstRun = true;
             bool Exit = false;
             do
@@ -61,14 +58,26 @@ namespace ConsoleApp1.Classes
 
                 Console.Clear();
                 int Option_Main;
+                string Prompt;
                 DisplayEnum(typeof(MainMenu));
                 Console.WriteLine("Please select an option");
-                Option_Main = int.Parse(Console.ReadLine());
+
+                Prompt = "";
+                try
+                {
+                    Option_Main = IntTryParse(Prompt, InputRange => InputRange >= 1 && InputRange <= 6, "Value entered must between 1 and 6");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                    Console.ReadLine();
+                    break;
+                }
+
                 switch (Option_Main)
                 {
                     case 1://DeliveryManagement
                         Delivery_Management();
-
                         break;
                     case 2://VehicleManagement
                         Vehicle_Management();
@@ -76,15 +85,11 @@ namespace ConsoleApp1.Classes
                     case 3://Driver_Management
                         Driver_Management();
                         break;
-                    case 4:
-                        ViewLogs(logging);
-                        Console.ReadLine();
-                        break;
-                    case 5://exit
+                    case 4://exit
                         Console.Clear();
                         Console.WriteLine("Exiting app. Enjoy your day!");
                         Exit = true;
-                        logging.Stop();
+
                         break;
                 }
 
@@ -103,7 +108,7 @@ namespace ConsoleApp1.Classes
                 int Option_Delivery;
                 string Prompt;
                 string OrderNumber;
-    
+
                 int Option_Delivery_Sub = 0;
                 Console.Clear();
                 Console.WriteLine("===== Delivery Management =====");
@@ -158,10 +163,10 @@ namespace ConsoleApp1.Classes
                         Console.Clear();
                         Console.WriteLine("===== Manage Vehicle Assignment =====");
                         Prompt = "Vehicle Assignment: \n 1. Assign Vehicle to Order \n 2. Unassign Vehicle from Order";
-                        
+
                         try
                         {
-                            Option_Delivery_Sub = IntTryParse(Prompt, InputRange => InputRange == 1 || InputRange == 2,"Value entered must be 1 or 2");
+                            Option_Delivery_Sub = IntTryParse(Prompt, InputRange => InputRange == 1 || InputRange == 2, "Value entered must be 1 or 2");
                         }
                         catch (Exception ex)
                         {
@@ -178,7 +183,19 @@ namespace ConsoleApp1.Classes
                             OrderNumber = Console.ReadLine();
                             Console.WriteLine("Please enter the vehicles license plate");
                             string NumberPlate = Console.ReadLine();
-                            Delivery.AssignVehicleToOrder(OrderNumber, NumberPlate);
+
+                            try
+                            {
+                                Delivery.AssignVehicleToOrder(OrderNumber, NumberPlate);
+                            }
+                            catch (VehicleNotFoundException ex)
+                            {
+                                Console.WriteLine($"Error: {ex.Message}");
+                            }
+                            catch (DeliveryTaskNotFoundException ex)
+                            {
+                                Console.WriteLine($"Error: {ex.Message}");
+                            }
                         }
                         else if (Option_Delivery_Sub == 2)
                         {
@@ -188,7 +205,7 @@ namespace ConsoleApp1.Classes
                             OrderNumber = Console.ReadLine();
                             Console.WriteLine("Please enter the vehicles license plate");
                             string NumberPlate = Console.ReadLine();
-                            //Delivery.UnAssignVehicleFromOrder(OrderNumber,NumberPlate); - TODO
+
                         }
 
                         Console.ReadLine();
@@ -215,8 +232,8 @@ namespace ConsoleApp1.Classes
                             Console.WriteLine("===== Assign Driver to Order =====");
                             Console.WriteLine("Please enter the Order number");
                             OrderNumber = Console.ReadLine();
-                           
-                            Prompt = "Please enter the drivers EmployeeNumber";
+
+                            Prompt = "Please enter the drivers Employee Number";
                             int EmployeeNumber;
                             try
                             {
@@ -250,7 +267,7 @@ namespace ConsoleApp1.Classes
                                 Console.ReadLine();
                                 break;
                             }
-                            //Delivery.UnassignDriverFromOrder(OrderNumber, EmployeeNumber); - TODO
+                           Delivery.UnassignDriverFromOrder(OrderNumber, EmployeeNumber); 
                         }
 
                         Console.ReadLine();
@@ -277,7 +294,7 @@ namespace ConsoleApp1.Classes
                 }
             } while (back != true);
         }
-        
+
         public static void Vehicle_Management()
         {
             Vehicles VehicleManager = new Vehicles();
@@ -361,17 +378,28 @@ namespace ConsoleApp1.Classes
         }
         public static void Driver_Management()
         {
-            OperationLogs logging = new OperationLogs();
-            Drivers driverManager = new Drivers(logging);
             bool back = false;
             do
             {
                 Console.Clear();
                 int Option_Driver;
+                string Prompt;
                 Console.WriteLine("===== Driver Management =====");
                 DisplayEnum(typeof(DriverManagement));
                 Console.WriteLine("Please select an option");
-                Option_Driver = int.Parse(Console.ReadLine());
+
+                Prompt = "";
+                try
+                {
+                    Option_Driver = IntTryParse(Prompt, InputRange => InputRange >= 1 && InputRange <= 8, "Value entered must between 1 and 8");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                    Console.ReadLine();
+                    break;
+                }
+
                 switch (Option_Driver)
                 {
                     case 1://Add_Driver
@@ -383,7 +411,7 @@ namespace ConsoleApp1.Classes
                     case 2://Edit_Driver
                         Console.Clear();
                         Console.WriteLine("===== Editing Drivers =====");
-                        driverManager.EditDriver();
+                        Drivers.EditDriver();
                         Console.ReadLine();
                         break;
                     case 3://View all Drivers
@@ -401,8 +429,18 @@ namespace ConsoleApp1.Classes
                     case 5://Search_Driver
                         Console.Clear();
                         Console.WriteLine("===== Search Driver =====");
-                        Console.Write("Enter Employee Number of the driver to search: ");
-                        int SearchEmployeeNo = int.Parse(Console.ReadLine());
+
+                        Prompt = "Enter Employee Number of the driver to search: ";
+                        int SearchEmployeeNo = 0;
+                        try
+                        {
+                            SearchEmployeeNo = Menu.IntTryParse(Prompt);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Error: {ex.Message}");
+                            Console.ReadLine();
+                        }
 
                         try
                         {
@@ -438,7 +476,7 @@ namespace ConsoleApp1.Classes
         {
             bool Validated = false;
 
-            while (Validated==false)
+            while (Validated == false)
             {
                 Console.WriteLine(PromptMessage);
                 Validated = int.TryParse(Console.ReadLine(), out int output);
@@ -457,7 +495,7 @@ namespace ConsoleApp1.Classes
         }
 
         //Input type is int. Output is bool for the lambda function. If bool is true, returns the int that was validated.
-        public static int IntTryParse(string promptMessage, Func<int, bool> ExtraValidation,string ValidationErrorMessage)
+        public static int IntTryParse(string promptMessage, Func<int, bool> ExtraValidation, string ValidationErrorMessage)
         {
             int result = IntTryParse(promptMessage); // Call the original method
 
@@ -469,30 +507,6 @@ namespace ConsoleApp1.Classes
             {
                 throw new FailedValidationException($"The input value failed the extra validation criteria of IntTryParse. Reason being: {ValidationErrorMessage}");
             }
-        }
-
-        //TODO - DoubleTryParse. BoolTryParse
-
-        private static void ViewLogs(OperationLogs logging)
-        {
-            Console.Clear();
-            Console.WriteLine("===== Operation Logs =====");
-
-            List<string> logs = logging.GetLogs();
-
-            if (logs.Count == 0)
-            {
-                Console.WriteLine("No logs available.");
-            }
-            else
-            {
-                foreach (var log in logs)
-                {
-                    Console.WriteLine(log);
-                }
-            }
-
-            Console.ReadLine();
         }
     }
 }

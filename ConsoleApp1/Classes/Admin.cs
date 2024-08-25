@@ -16,7 +16,6 @@ namespace ConsoleApp1.Classes
         {
         }
         
-
         public bool Login()
         {
             bool isAuthenticated = false;

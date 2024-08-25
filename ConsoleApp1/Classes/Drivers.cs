@@ -16,13 +16,6 @@ namespace ConsoleApp1.Classes
         public bool Availability { get; set; }
         private static List<Drivers> _DriverList = new List<Drivers>();
 
-        private OperationLogs _OperationLogs;
-
-        public Drivers(OperationLogs operationLogs)
-        {
-            _OperationLogs = operationLogs;
-        }
-
         public static List<Drivers> DriverList
         {
             get { return _DriverList; }
@@ -98,8 +91,6 @@ namespace ConsoleApp1.Classes
         public static Drivers AddDrivers()
         {
             Console.WriteLine("===== Adding Drivers =====");
-
-            Console.WriteLine();
             Console.Write("Enter the Driver's Name: ");
             string name = Console.ReadLine();
 
@@ -108,8 +99,18 @@ namespace ConsoleApp1.Classes
             string surname = Console.ReadLine();
 
             Console.WriteLine();
-            Console.Write("Enter Driver's Employee Number: ");
-            int employeeNo = int.Parse(Console.ReadLine());
+
+            string Prompt = "Enter Driver's Employee Number: ";
+            int employeeNo = 0;
+            try
+            {
+                employeeNo = Menu.IntTryParse(Prompt);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                Console.ReadLine();
+            }
 
             Console.WriteLine();
             Console.Write("Enter the Drivers license type. (Code 8, Code 10, Code 11, Code 14) ");
@@ -119,10 +120,20 @@ namespace ConsoleApp1.Classes
             return newDriver;
         }
 
-        public void EditDriver()
+        public static void EditDriver()
         {
-            Console.Write("Enter Employee Number of the driver to edit: ");
-            int editEmployeeNo = int.Parse(Console.ReadLine());
+            string Prompt = "Enter Employee Number of the driver to edit: ";
+            int editEmployeeNo = 0;
+            try
+            {
+                editEmployeeNo = Menu.IntTryParse(Prompt);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                Console.ReadLine();
+            }
+
             Drivers driverToEdit = SearchDriver(editEmployeeNo);
 
             if (driverToEdit == null)
@@ -153,7 +164,6 @@ namespace ConsoleApp1.Classes
                 Console.Write("Enter License Type to add: ");
                 Console.Write("(Code 8, Code 10, Code 11, Code 14) ");
                 string licenseTypeToAdd = Console.ReadLine();
-                _OperationLogs.LogOperation($"Driver {driverToEdit.Name} added license type {licenseTypeToAdd}");
                 driverToEdit.AddLicenseType(licenseTypeToAdd);
             }
             else if (licenseOption == "remove")
@@ -164,7 +174,6 @@ namespace ConsoleApp1.Classes
                 if (driverToEdit.LicenseTypes.Contains(licenseTypeToRemove))
                 {
                     driverToEdit.LicenseTypes.Remove(licenseTypeToRemove);
-                    _OperationLogs.LogOperation($"Driver {driverToEdit.Name} removed license type {licenseTypeToRemove}");
                     Console.WriteLine($"License Type '{licenseTypeToRemove}' removed from driver {driverToEdit.Name} {driverToEdit.Surname}.");
                 }
                 else
@@ -172,11 +181,6 @@ namespace ConsoleApp1.Classes
                     Console.WriteLine($"Driver {driverToEdit.Name} {driverToEdit.Surname} does not have '{licenseTypeToRemove}'");
                 }
             }
-
-            // Log the edit
-            _OperationLogs.LogOperation($"Edited driver {driverToEdit.Name} {driverToEdit.Surname} (Employee No: {driverToEdit.EmployeeNo}).");
-
-            Console.WriteLine($"Driver {driverToEdit.Name} {driverToEdit.Surname} updated successfully.");
         }
 
 
@@ -198,20 +202,33 @@ namespace ConsoleApp1.Classes
             }
         }
 
-        public static Drivers SearchDriver(int EmployeeNo)
+        public static Drivers SearchDriver(int employeeNo)
         {
-            Drivers FoundDriver = DriverList.Find(driver => driver.EmployeeNo == EmployeeNo);
-
-            if (FoundDriver != null)
+            try
             {
-                return FoundDriver;
+                Drivers foundDriver = DriverList.Find(driver => driver.EmployeeNo == employeeNo);
 
+                if (foundDriver != null)
+                {
+                    return foundDriver;
+                }
+                else
+                {
+                    throw new DriverNotFoundException("Driver not found");
+                }
             }
-            else
+            catch (DriverNotFoundException ex)
             {
-                throw new DriverNotFoundException("Driver not found");
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                return null;
             }
         }
+
 
         public string GetDetails()
         {
