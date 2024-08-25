@@ -84,5 +84,108 @@ namespace ConsoleApp1.Classes
             }
         }
 
+        public override void DisplayDetails()
+        {
+            Console.WriteLine($"Make: {Make}, Model: {Model}, Year: {Year}, Number Plate: {NumberPlate}, Availability: {Availability}, Load Capacity: {LoadCapacity}");
+        }
+
+        public override void EditVehicle(string numberplate)
+        {
+            List<string> requiredOption = new List<string>
+            {
+                "Make",
+                "Model",
+                "Year",
+                "NumberPlate",
+                "Availability",
+                "LoadCapacity"
+            };
+
+            Truck foundVehicle = new Truck();
+
+            foreach (Vehicles vehicle in VehicleList)
+            {
+                if (vehicle.NumberPlate == numberplate)
+                {
+                    foundVehicle = (Truck)vehicle;
+                }
+            }
+
+            if (foundVehicle.Make != null)
+            {
+                foundVehicle.DisplayDetails();
+
+                int option = 0;
+                foreach (string item in requiredOption)
+                {
+                    Console.WriteLine($"Press {requiredOption.IndexOf(item)} to edit {item}");
+                }
+                try
+                {
+                    option = Menu.IntTryParse("Enter the value you would like to change: ");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                    Console.ReadLine();
+
+                }
+
+                switch (option)
+                {
+                    case 0:
+                        Console.Write("Enter vehicle make: ");
+                        foundVehicle.Make = Console.ReadLine();
+                        break;
+                    case 1:
+                        Console.Write("Enter vehicle model: ");
+                        foundVehicle.Model = Console.ReadLine();
+                        break;
+                    case 2:
+                        try
+                        {
+                            foundVehicle.Year = Menu.IntTryParse("Enter vehicle year: ");
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Error: {ex.Message}");
+                            Console.ReadLine();
+
+                        }
+                        break;
+                    case 3:
+                        Console.Write("Enter vehicle numberplate: ");
+                        foundVehicle.NumberPlate = Console.ReadLine();
+                        break;
+                    case 4:
+                        Console.Write("Enter vehicle availability(Available, Unavailable, Under Maintenance): ");
+                        foundVehicle.Availability = Console.ReadLine();
+                        break;
+                    case 5:
+                        try
+                        {
+                            foundVehicle.LoadCapacity = Menu.DoubleTryParse("Enter vehicle load capacity: ");
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Error: {ex.Message}");
+                            Console.ReadLine();
+
+                        }
+                        break;
+                    default:
+                        Console.WriteLine("Invalid Option entered");
+                        break;
+                }
+
+                Console.WriteLine("\nVehicle edited successfully!");
+
+            }
+            else
+            {
+                SearchVehicle(numberplate);
+            }
+        }
+
     }
 }

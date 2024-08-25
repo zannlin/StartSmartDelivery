@@ -251,7 +251,6 @@ namespace ConsoleApp1.Classes
                         {
                             Console.WriteLine($"Error: {ex.Message}");
                             Console.ReadLine();
-
                         }
                         break;
                     case 3:

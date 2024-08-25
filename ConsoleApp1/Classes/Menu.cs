@@ -327,7 +327,6 @@ namespace ConsoleApp1.Classes
 
                     case 1://Add_Vehicle
                         Console.Clear();
-
                         truck.GetVehicleInfo();
                         Console.ReadLine();
                         break;
@@ -339,13 +338,13 @@ namespace ConsoleApp1.Classes
                         break;
                     case 3://edit vehicle
                         Console.Clear();
-                        Console.WriteLine("Enter shit: ");
-                        VehicleManager.EditVehicle(Console.ReadLine());
+                        Console.WriteLine("Enter Numberplate: ");
+                        truck.EditVehicle(Console.ReadLine());
                         Console.ReadLine();
                         break;
                     case 4://ViewAllVehicles
                         Console.Clear();
-                        VehicleManager.ViewAllVehicles();
+                        truck.ViewAllVehicles();
                         Console.ReadLine();
                         break;
                     case 5://View_Available_Vehicles
