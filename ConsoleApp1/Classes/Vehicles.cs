@@ -202,25 +202,34 @@ namespace ConsoleApp1.Classes
                 "Availability"
             };
 
-            Vehicles foundVehicle = VehicleList.Find(v => v.NumberPlate.Equals(NumberPlate, StringComparison.OrdinalIgnoreCase));
+            Vehicles foundVehicle = new Vehicles();
 
-            if (foundVehicle != null)
+            foreach (Vehicles vehicle in VehicleList)
+            {
+                if (vehicle.NumberPlate == numberplate)
+                {
+                    foundVehicle = vehicle;
+                }
+            }
+
+            if (foundVehicle.Make != null)
             {
                 foundVehicle.DisplayDetails();
-                
+
                 int option = 0;
-                bool IsCorrect = false;
-                while (IsCorrect)
+                foreach (string item in requiredOption)
                 {
-                    foreach (string item in requiredOption)
-                    {
-                        Console.WriteLine($"Press {requiredOption.IndexOf(item)} to edit {item}");
-                    }
-                    IsCorrect = int.TryParse(Console.ReadLine(), out option);
-                    if (!IsCorrect)
-                    {
-                        Console.WriteLine("Input is invalid, please try again");
-                    }
+                    Console.WriteLine($"Press {requiredOption.IndexOf(item)} to edit {item}");
+                }
+                try
+                {
+                    option = Menu.IntTryParse("Enter the value you would like to change:");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                    Console.ReadLine().ToLower();
+
                 }
 
                 switch (option)
@@ -249,6 +258,8 @@ namespace ConsoleApp1.Classes
                         Console.WriteLine("Invalid Option entered");
                         break;
                 }
+
+                Console.WriteLine("\nVehicle edited successfully!");
 
             }
             else
