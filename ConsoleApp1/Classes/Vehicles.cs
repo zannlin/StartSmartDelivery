@@ -223,12 +223,12 @@ namespace ConsoleApp1.Classes
                 }
                 try
                 {
-                    option = Menu.IntTryParse("Enter the value you would like to change:");
+                    option = Menu.IntTryParse("Enter the value you would like to change: ");
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Error: {ex.Message}");
-                    Console.ReadLine().ToLower();
+                    Console.ReadLine();
 
                 }
 
@@ -242,9 +242,17 @@ namespace ConsoleApp1.Classes
                         Console.Write("Enter vehicle model: ");
                         foundVehicle.Model = Console.ReadLine();
                         break;
-                    case 2:
-                        Console.Write("Enter vehicle year: ");
-                        foundVehicle.Year = int.Parse(Console.ReadLine());
+                    case 2:                        
+                        try
+                        {
+                            foundVehicle.Year = Menu.IntTryParse("Enter vehicle year: ");
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Error: {ex.Message}");
+                            Console.ReadLine();
+
+                        }
                         break;
                     case 3:
                         Console.Write("Enter vehicle numberplate: ");
