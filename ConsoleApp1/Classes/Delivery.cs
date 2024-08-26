@@ -304,11 +304,12 @@ namespace ConsoleApp1.Classes
             {
                 if (foundDelivery != null)
                 {
+                    Console.WriteLine("===== Delivery Found =====");
                     return foundDelivery;
                 }
                 else
                 {
-                    throw new DeliveryTaskNotFoundException("Order not found");
+                    throw new DeliveryTaskNotFoundException("Delivery not found");
                 }
             }
             catch (DeliveryTaskNotFoundException ex)

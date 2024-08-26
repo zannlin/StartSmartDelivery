@@ -79,7 +79,9 @@ namespace ConsoleApp1.Classes
         public void OnCreateOrder(DefaultDeliveryTask deliveryTask)
         {
             // Subscriber
-            Console.WriteLine($"An order was created with the following details: \n" + deliveryTask);
+            Console.Clear();
+            Console.WriteLine($"An order was created with the following details:");
+            deliveryTask.DisplayDetails();
             Delivery newDelivery = new Delivery(deliveryTask);
 
             Delivery.DeliveryList.Add(newDelivery);

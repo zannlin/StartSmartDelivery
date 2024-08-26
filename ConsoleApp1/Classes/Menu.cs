@@ -57,8 +57,6 @@ namespace ConsoleApp1.Classes
             {
                 if (!FirstRun)
                 {
-                    Console.WriteLine("Press any key to continue");
-                    Console.ReadLine();
                     activityMonitor.ResetTimer();
                 }
 
@@ -292,6 +290,7 @@ namespace ConsoleApp1.Classes
                         Console.Clear();
                         Console.WriteLine("Please enter the Order number");
                         OrderNumber = Console.ReadLine();
+                        Console.Clear();
                         Delivery Result = Delivery.SearchDeliveries(OrderNumber);
                         Result.GetDetails();
                         Console.ReadLine();
