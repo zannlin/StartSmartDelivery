@@ -145,7 +145,7 @@ namespace ConsoleApp1.Classes
             else
             {
                 Console.WriteLine("===== List of Available Vehicles =====");
-                foreach (var Vehicle in VehicleList)
+                foreach (var Vehicle in availableVehicles)
                 {
                     Vehicle.DisplayDetails();
                 }
@@ -155,16 +155,15 @@ namespace ConsoleApp1.Classes
 
         {
             Console.WriteLine("===== Vehicles under Maintanence =====");
-            var availableVehicles = VehicleList.Where(v => v.Availability == "Maintanence").ToList();
+            var NotavailableVehicles = VehicleList.Where(v => v.Availability == "Under Maintenance").ToList();
 
-            if (availableVehicles.Count == 0)
+            if (NotavailableVehicles.Count == 0)
             {
                 Console.WriteLine("No available vehicles at the moment.");
             }
             else
             {
-                Console.WriteLine("===== List of Vehicles under Maintanence =====");
-                foreach (var Vehicle in VehicleList)
+                foreach (var Vehicle in NotavailableVehicles)
                 {
                     Vehicle.DisplayDetails();
                 }
