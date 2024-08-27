@@ -50,7 +50,6 @@
   <ItemGroup>
     <Compile Include="Classes\ActivityMonitor.cs" />
     <Compile Include="Classes\Admin.cs" />
-    <Compile Include="Classes\Backup.cs" />
     <Compile Include="Classes\CustomDeliveryTask.cs" />
     <Compile Include="Classes\DefaultDeliveryTask.cs" />
     <Compile Include="Classes\Delivery.cs" />
