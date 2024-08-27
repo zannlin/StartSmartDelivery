@@ -17,7 +17,6 @@ namespace ConsoleApp1.Classes
         public DefaultDeliveryTask(string orderNumber, string date, string day, string time, string name, string telephone, string cellphone, string email, string address, string product, string amount, string paymentMethod, string notes, string customerCode) : base(orderNumber, date, day, time, name, telephone, cellphone, email,address, product, amount, paymentMethod, notes)
         {
             CustomerCode = customerCode;
-            DeliveryTaskList.Add(this);
             this.OrderCreated += OnCreateOrder;
             PublishOrderCreated(this);
         }
@@ -64,7 +63,6 @@ namespace ConsoleApp1.Classes
             string newCustomerCode = Console.ReadLine();
 
             DefaultDeliveryTask deliveryTask = new DefaultDeliveryTask(newOrderNumber, newDate, newDay, newTime, newName, newTelephone, newCellphone, newEmail, newAddress, newProduct, newAmount, newPaymentMethod, newNotes, newCustomerCode);
-            DeliveryTaskList.Add(deliveryTask);
             // Call the publisher
             PublishOrderCreated(deliveryTask);
         }

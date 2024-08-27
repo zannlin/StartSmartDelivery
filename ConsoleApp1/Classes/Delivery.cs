@@ -244,6 +244,7 @@ namespace ConsoleApp1.Classes
             }
             else
             {
+                Console.WriteLine($"[     Total Deliveries: {DeliveryList.Count}     ]");
                 Console.WriteLine("===== List of Deliveries =====");
                 foreach (var delivery in DeliveryList)
                 {

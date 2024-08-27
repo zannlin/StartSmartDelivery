@@ -10,7 +10,6 @@ namespace ConsoleApp1.Classes
     internal abstract class DeliveryTask
     {
         static List<DeliveryTask> _DeliveryTaskList = new List<DeliveryTask>();
-
         public static List<DeliveryTask> DeliveryTaskList
         {
             get { return _DeliveryTaskList; }
