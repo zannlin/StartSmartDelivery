@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleApp1.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -80,8 +81,16 @@ namespace ConsoleApp1.Classes
             Console.WriteLine("Please enter the Notes");
             string newNotes = Console.ReadLine();
 
-            Console.WriteLine("How many custom fields do you want to add?");
-            int numberOfFields = int.Parse(Console.ReadLine());
+            int numberOfFields=0;
+            try
+            {
+                 numberOfFields = Menu.IntTryParse("How many custom fields do you want to add?");
+            }
+            catch (InvalidTypeException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                Console.ReadLine();
+            }
 
             for (int i = 0; i < numberOfFields; i++)
             {
