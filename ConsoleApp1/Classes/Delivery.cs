@@ -156,28 +156,28 @@ namespace ConsoleApp1.Classes
             try
             {
 
-   
-            if (DeliveryToAssign != null)
-            {
 
-                Drivers DriverToAssign = Drivers.DriverList.Find(driver => driver.EmployeeNo == EmployeeNo);
-                DriverToAssign.Availability = false;
-
-                if (DriverToAssign != null)
+                if (DeliveryToAssign != null)
                 {
-                    DeliveryToAssign.AssignedDriver = DriverToAssign;
 
-                    Console.WriteLine($"Driver {DriverToAssign.Name} {DriverToAssign.Surname} with the EmployeeNO {DriverToAssign.EmployeeNo} was assigned to Order {OrderNumber}.");
+                    Drivers DriverToAssign = Drivers.DriverList.Find(driver => driver.EmployeeNo == EmployeeNo);
+                    DriverToAssign.Availability = false;
+
+                    if (DriverToAssign != null)
+                    {
+                        DeliveryToAssign.AssignedDriver = DriverToAssign;
+
+                        Console.WriteLine($"Driver {DriverToAssign.Name} {DriverToAssign.Surname} with the EmployeeNO {DriverToAssign.EmployeeNo} was assigned to Order {OrderNumber}.");
+                    }
+                    else
+                    {
+                        throw new DriverNotFoundException("Vehicle not found in list");
+                    }
                 }
                 else
                 {
-                    throw new DriverNotFoundException("Vehicle not found in list");
+                    throw new DeliveryTaskNotFoundException("Order not found");
                 }
-            }
-            else
-            {
-                throw new DeliveryTaskNotFoundException("Order not found");
-            }
             }
             catch (DriverNotFoundException ex)
             {
@@ -238,12 +238,14 @@ namespace ConsoleApp1.Classes
 
         public static void ViewAllDeliveries()
         {
+
             if (DeliveryList.Count == 0)
             {
                 Console.WriteLine("No deliveries available.");
             }
             else
             {
+                Console.WriteLine($"[     Total Deliveries: {DeliveryList.Count}     ]");
                 Console.WriteLine("===== List of Deliveries =====");
                 foreach (var delivery in DeliveryList)
                 {
